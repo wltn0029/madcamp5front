@@ -21,7 +21,9 @@ import Collapse from '@material-ui/core/Collapse';
 
 import ButtonModify from './RightSidebar/ButtonModify';
 import { Button } from "@material-ui/core";
-import DndTest from '../Dnd/DndTest';
+import Center from '../Components/Dnd/Center';
+
+import axios from 'axios';
 
 // import DropTarget from '../DnD/DropTarget';
 
@@ -50,12 +52,79 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar
 });
 
-class ClippedDrawer extends React.Component {
-  state = {
-    open: true,
-    clickedComponent : ''
-  };
+let box1 = [];
+let box2 = [];
+let box3 = [];
 
+class ClippedDrawer extends React.Component {
+
+  state = {
+    justCheck: true,
+    open: true,
+    clickedComponent : '',
+    load:false,
+    elements : [{
+        asset: "button",
+        orientation: " vertical",
+        div: "box1",
+        argv: {
+          class: "btn btn-primary",
+          href: "",
+          string: "btn1"
+        }
+      },
+      {
+        asset: "button",
+        orientation: " vertical",
+        div: "box1",
+        argv: {
+          class: "btn btn-primary",
+          href: "",
+          string: "btn2"
+        }
+      },
+      {
+        asset: "button",
+        orientation: " vertical",
+        div: "box2",
+        argv: {
+          class: "btn btn-primary",
+          href: "",
+          string: "btn3"
+        }
+      },
+      {
+        asset: "button",
+        orientation: " vertical",
+        div: "box2",
+        argv: {
+          class: "btn btn-primary",
+          href: "",
+          string: "btn4"
+        }
+      },
+      {
+        asset: "button",
+        orientation: " vertical",
+        div: "box3",
+        argv: {
+          class: "btn btn-primary",
+          href: "",
+          string: "btn5"
+        }
+      },
+      {
+        asset: "button",
+        orientation: " vertical",
+        div: "box3",
+        argv: {
+          class: "btn btn-primary",
+          href: "",
+          string: "btn6"
+        }
+      }],
+  };
+ 
   btnClick =  (component) => {
     this.setState({
       clickedComponent: component
@@ -63,7 +132,48 @@ class ClippedDrawer extends React.Component {
     console.log(component+" clicked")
   };
 
+  elementMove = (element, id) => {
+    console.log("finally came to parent component!", element, " id:", id);
+    let project = this.state.elements.find(p => {
+      return p.argv.string === element.argv.string;
+    });
+    project.div = id;
+    const justcheck2 = this.state.justCheck;
+    this.setState({
+      justCheck: !justcheck2
+    });
+    console.log("this.state2.element", this.state.elements);
+  };
+
+  onUpdate = element => {
+    const _this = this;
+    const url = "http://143.248.38.50/editor/123456/assets";
+    let getid;
+    console.log(JSON.stringify(element));
+    axios({
+      method :'post',
+      url : url,
+      data : element
+      }).then(function(response){
+        getid = response.headers['asset_id']
+        console.log("id post로 받은거",getid);
+        _this.setState({
+          elements : _this.state.elements.concat({id : getid, ...element})
+        })
+      })
+      .catch(function(error){
+        console.log(error);
+      })
+  }
+
+  setStateAsync(state){
+    return new Promise((resolve)=>{
+      this.setState(state, resolve)
+    })
+  }
+
   render() {
+    console.log("appbar render")
     const { classes } = this.props;    
     return (
       <div className={classes.root}>
@@ -128,9 +238,10 @@ class ClippedDrawer extends React.Component {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <DndTest/>
+          <Center elements ={this.state.elements}
+                  elementMove = {this.elementMove}/>
         </main>
-
+            
         {/* Right Sidebar */}
         <Drawer
           className={classes.drawer}
@@ -142,7 +253,10 @@ class ClippedDrawer extends React.Component {
         >
           <div className={classes.toolbar} />
           {/* 선택한, 각각의 요소 변형할 수 있는 컴포넌트 */}
-          <ButtonModify clickedComponent ={this.state.clickedComponent}/>
+          <ButtonModify 
+            clickedComponent ={this.state.clickedComponent}
+            onUpdate = {this.onUpdate}
+            elementMove = {this.elementMove}/>
         </Drawer>
       </div>
     );

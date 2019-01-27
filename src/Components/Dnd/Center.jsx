@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Draggable from "../Draggable";
+import Draggable from "./Draggable";
 import DroppableBox from "./DroppableBox";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import ButtonModify from '../../Components/RightSidebar/ButtonModify';
+import ButtonForm from '../../Components/RightSidebar/ButtonForm';
 import "bootstrap/dist/css/bootstrap.css";
+
+let box1=[]
+let box2=[]
+let box3=[]
 
 const Wrapper = styled.div`
   width: 100%;
@@ -30,95 +35,30 @@ let navbarindx = 1;
 let progressindx = 1;
 let listindx = 1;
 let justCheck = true;
-let box1 = [];
-let box2 = [];
-let box3 = [];
 
-class index extends Component {
+class Center extends Component {
+
   constructor() {
     super();
     this.displayData = [];
   }
-  state2 = {
-    elements: [
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box1",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn1"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box1",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn2"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box2",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn3"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box2",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn4"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box3",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn5"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box3",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn6"
-        }
-      }
-    ]
-  };
-
   state = {
     textValue: "initial value",
     showdata: this.displayData,
-    checkAdd: true
+    checkAdd: true,
+    boxes : [],
+    elements : []
   };
 
-  elementMove = (element, id) => {
-    console.log("finally came to parent component!", element, " id:", id);
+  // elementMove = (element, id) => {
+  //   console.log("finally came to parent component!", element, " id:", id);
 
-    let project = this.state2.elements.find(p => {
-      return p.argv.string === element.argv.string;
-    });
-    project.div = id;
-    console.log("this.state2.element", this.state2.elements);
-  };
+  //   let project = this.state.elements.find(p => {
+  //     return p.argv.string === element.argv.string;
+  //   });
+  //   project.div = id;
+  //   console.log("this.state2.element", this.state.elements);
+  // };
 
   changeText = e => {
     this.setState({
@@ -127,25 +67,17 @@ class index extends Component {
     console.log(this.state.textValue);
   };
 
-  // 버튼 추가하는 메소드
-  addButton = e => {
-    e.preventDefault();
-    let pushingElement = {
-      asset: "button",
-      orientation: " vertical",
-      div: "box1",
-      argv: {
-        class: "btn btn-primary",
-        href: "",
-        string: "btn" + btnIndx++
-      }
-    };
-    box1.push(pushingElement);
-    this.state2.elements.push(pushingElement);
-    this.setState({
-      checkAdd: !this.state.chekAdd
-    });
-  };
+  static getDerivedStateFromProps(nextProps,prevState){
+    if (nextProps.elements !== prevState.elements ) {
+      console.log("props >>>> ",nextProps.elements);
+      justCheck = true;
+      box1=[]
+      box2=[]
+      box3=[]
+      return { elements: nextProps.elements };
+    }
+    return null;
+  }
 
   // navbar 추가하는 메소드
   addNavbar = e => {
@@ -218,23 +150,18 @@ class index extends Component {
       }
     };
     box1.push(pushingElement);
-    this.state2.elements.push(pushingElement);
+    this.state.elements.push(pushingElement);
     this.setState({
       checkAdd: !this.state.checkAdd
     });
   }
 
-  // titlebar 추가하는 메소드
-  addTitlebar = e => {
-    e.preventDefault();
-    let pushingElem
-  }
-
   render() {
+    const {elementMove} =this.props;
     console.log("rendered!");
-
+    
     if (justCheck === true) {
-      this.state2.elements.map(element => {
+      this.state.elements.map(element => {
         if (element.div === "box1") {
           box1.push(element);
         } else if (element.div === "box2") {
@@ -253,17 +180,17 @@ class index extends Component {
           <DroppableBox
             boxId="box1"
             elements={box1}
-            whenSomethingCame={this.elementMove}
+            whenSomethingCame={elementMove}
           />
           <DroppableBox
             boxId="box2"
             elements={box2}
-            whenSomethingCame={this.elementMove}
+            whenSomethingCame={elementMove}
           />
           <DroppableBox
             boxId="box3"
             elements={box3}
-            whenSomethingCame={this.elementMove}
+            whenSomethingCame={elementMove}
           />
         </Wrapper>
         <div>
@@ -281,9 +208,9 @@ class index extends Component {
           />
         </div>
         <div>
-          <Button variant="contained" color="primary" onClick={this.addButton}>
+          {/* <Button variant="contained" color="primary" onClick={this.addButton}>
             Add a button!
-          </Button>
+          </Button> */}
           <Button variant="contained" color="primary" onClick={this.addNavbar}>
             Add a navbar! 잘 안돼...
           </Button>
@@ -299,4 +226,4 @@ class index extends Component {
   }
 }
 
-export default index;
+export default Center;

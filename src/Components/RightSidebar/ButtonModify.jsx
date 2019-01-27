@@ -8,31 +8,7 @@ class ButtonModify extends Component {
     component: "null",
     elements : []
   }
-
-  postElement = async (element) => {
-    const _this = this;
-    const{elements} = this.state;
-    const url = "http://143.248.38.50/editor/123456/assets";
-    let getid;
-    
-    axios({
-      method :'post',
-      url : url,
-      data : element
-      }).then( await function(response){
-        getid = response.data['asset_id']
-        console.log("id post로 받은거",getid);
-        _this.setState({
-          elements : elements.concat({id : getid, ...element})
-        })
-        console.log(elements);
-      })
-      .catch(function(error){
-        console.log(error);
-      })
-
-  }
-
+  
   static getDerivedStateFromProps(nextProps, prevState) {
     // 여기서는 setState 를 하는 것이 아니라
     // 특정 props 가 바뀔 때 설정하고 설정하고 싶은 state 값을 리턴하는 형태로
@@ -45,11 +21,12 @@ class ButtonModify extends Component {
 
   render() {
     const {component} = this.state;
+    const{onUpdate} = this.props;
     console.log(component)
 
     let showBox;
       if(component === 'Button'){
-        showBox= (<ButtonForm onCreate ={this.postElement}/>)
+        showBox= (<ButtonForm onCreate ={onUpdate}/>)
       }
       else if(component === 'TitleBar'){
         showBox =(<TitleBar/>)

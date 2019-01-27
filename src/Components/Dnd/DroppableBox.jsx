@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Draggable from "../Draggable";
-import Droppable from "../Droppable";
+import Draggable from "./Draggable";
+import Droppable from "./Droppable";
 
 import "bootstrap/dist/css/bootstrap.css";
 

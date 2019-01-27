@@ -3,36 +3,46 @@ import React, {Component} from 'react'
 class ButtonForm extends Component{
 
     state ={
-        element : {
-            asset : "button",
-            orientation : "vertical",
-            div : 1,
-            argv: {
-                class:"",
-                string:"",
-                href:"",   
-            },  
-        },
-        editing : true          
+        class:"",
+        string:"",
+        href:"", 
+        editing : true,          
+    }
+
+    makeJSon(){
+        element:{}
+    }
+
+    makeJson = () => {
+        this.element.argv.class = this.state.class;
+        this.element.argv.string = this.state.string;
+    }
+
+    element = {
+        asset : "button",
+        orientation : "vertical",
+        div : 'box1',
+        argv: {
+            class:"",
+            string:"",
+            href:"",   
+        } 
     }
 
     handleChange=(e)=>{
         this.setState({
-            [e.target.name]:e.target.value
+            [e.target.name] : e.target.value
         })
     }
 
     handleSubmit=(e)=>{
         e.preventDefault();
+        this.element.argv.class = this.state.class;
+        this.element.argv.string = this.state.string;
+        this.element.argv.href = this.state.href;
+        console.log(this.element)
         if(this.state.editing){
-            this.props.onCreate(this.state.element)
-            this.setState({
-                argv : {
-                    class:"",
-                    string:"",
-                    href:"",
-                }
-            })
+            this.props.onCreate(this.element)
         }
         this.setState({
             editing:!this.state.editing
@@ -40,7 +50,6 @@ class ButtonForm extends Component{
     }
 
     render(){
-        let{editing} = this.props;
         return(
             <form onSubmit={this.handleSubmit}>
                 <input
