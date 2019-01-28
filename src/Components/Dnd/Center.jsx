@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import DroppableBox from "./DroppableBox";
-
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -10,7 +9,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import "bootstrap/dist/css/bootstrap.css";
-
 import DivisionContent from "./divisionContent";
 
 let box1 = [];

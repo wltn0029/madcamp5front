@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+
 import ButtonForm from'./ButtonForm';
 import TitleBar from './TitleBar';
+import NavBar from './NavBar';
+import Progress from './Progress';
+import Card from './Card';
+import List from './List';
+
 import axios from 'axios';
 
 class ButtonModify extends Component {
@@ -29,10 +35,10 @@ class ButtonModify extends Component {
         showBox= (<ButtonForm onCreate ={onUpdate}/>)
       }
       else if(component === 'TitleBar'){
-        showBox =(<TitleBar/>)
+        showBox =(<TitleBar onCreate = {onUpdate}/>)
       }
       else if(component === "NavBar"){
-
+        showBox = (<NavBar onCreate = {onUpdate}/>)
       }
       else if(component === "List"){
 
