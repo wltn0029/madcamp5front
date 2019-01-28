@@ -64,9 +64,9 @@ const styles = theme => ({
 let box1 = [];
 let box2 = [];
 let box3 = [];
+let resbody;
 let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />)];
 class ClippedDrawer extends React.Component {
-
   state = {
     justCheck: true,
     open: true,
@@ -164,6 +164,8 @@ class ClippedDrawer extends React.Component {
       url : url,
       data : element
       }).then(function(response){
+        resbody = response.data
+        console.log(resbody)
         getid = response.headers['asset_id']
         console.log("id post로 받은거",getid);
         _this.setState({
@@ -222,6 +224,10 @@ class ClippedDrawer extends React.Component {
           <div className={classes.toolbar} />
           <Center elements ={this.state.elements}
                   elementMove = {this.elementMove}/>
+                  <iframe 
+                    srcdoc={resbody}
+                    style={{border: "solid 3px #1d4687", width: "800px", height: "450px"}}
+                  ></iframe>
         </main>
             
         {/* Right Sidebar */}
