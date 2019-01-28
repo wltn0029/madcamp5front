@@ -14,7 +14,7 @@ class Draggable extends Component {
 
   render() {
     return (
-      <div id={this.props.id} draggable="true" onDragStart={this.drag} onDragOver={this.noAllowDrop} style={this.props.style}>
+      <div id={this.props.id} draggable="true" onDragStart={this.drag} onDragOver={this.noAllowDrop} style={this.props.style} style={{margin: "5px", float: "left" ,width: "auto", border: "solid 1px white"}}>
         {this.props.children}
       </div>
     );

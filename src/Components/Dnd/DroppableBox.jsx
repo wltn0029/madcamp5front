@@ -6,17 +6,14 @@ import Droppable from "./Droppable";
 import "bootstrap/dist/css/bootstrap.css";
 
 const Wrapper = styled.div`
-  width: 100%;
-  padding: 32px;
   display: flex;
-  justify-content: center;
 `;
 
 const droppableStyle = {
   backgroundColor: "#555",
-  width: "250px",
+  width: "300px",
   height: "400px",
-  margin: "32px"
+  border: "solid 1px yellow"
 };
 
 class DroppableBox extends Component {
@@ -24,7 +21,7 @@ class DroppableBox extends Component {
   navbarlist = element => {
     return element.argv.menu.map(item => (
       <li className="nav-item" key={item}>
-        <a className="nav-link" href="">
+        <a className="nav-link" href="#">
           {item}
         </a>
       </li>
@@ -34,10 +31,7 @@ class DroppableBox extends Component {
   // navbar 만들어주는... 코드가 너무 길어서... 버튼은 짧은데...
   createnavbar = element => {
     return (
-      <nav
-        className="navbar navbar-expand-lg navbar-light bg-light"
-        id={element.argv.title}
-      >
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
           {element.title}
         </a>
@@ -76,7 +70,7 @@ class DroppableBox extends Component {
     );
   };
 
-  // progress 만들어주기
+  // progress 만들어주기... 입력한 값에 따라 다르게 나오게 바꿔줘야됨
   createProgress = element => {
     return (
       <div className="progress">
@@ -95,13 +89,70 @@ class DroppableBox extends Component {
   // List 만들어주기
   createList = element => {
     let listItems = element.argv.menu.map(item => (
-      <li key={item} className="list-group-item">{item}</li>
+      <li key={item} className="list-group-item">
+        {item}
+      </li>
     ));
+    return <ul className="list-group">{listItems}</ul>;
+  };
+
+  // Titlebar 만들어주기
+  createTitlebar = element => {
     return (
-      <ul className="list-group">
-        {listItems}
-      </ul>
+      <div className="jumbotron jumbotron-fluid">
+        <div className="container">
+          <h1 className="display-4">{element.argv.title}</h1>
+          <p className="lead">{element.argv.descrpition}</p>
+        </div>
+      </div>
     );
+  };
+
+  // Billboard 만들어주기... 좀 이상해서 그냥 아무사진이나 막갖다넣음
+  createBillboard = element => {
+    return (
+      <img
+        width="100%"
+        src="https://media-assets-01.thedrum.com/cache/images/thedrum-prod/s3-news-tmp-109131-this_billboard_deserves_an_oscar_sylva--2x1--940.png"
+      />
+    );
+  };
+
+  // Card 만들어주기, 이상하게 잘 안돼...
+  createCard = element => {
+    return (
+      <div className="card" style={{ width: "18rem" }}>
+        <img alt="..." className="card-img-top" src={element.argv.imgurl} />
+        <div className="card-body">
+          <h5 className="card-title">{element.argv.title}</h5>
+          <p className="card-text">{element.argv.description}</p>
+          <a className="btn btn-primary" href="https://www.kaist.ac.kr">
+            {element.argv.btntext}
+          </a>
+        </div>
+      </div>
+    );
+  };
+
+  //Text 만들어주기
+  createText = element => {
+    return <p>{element.argv.text}</p>;
+  };
+
+  // Image 만드러주기
+  createImage = element => {
+    return (
+      <img
+        alt="Responsive image"
+        className="img-fluid"
+        src={element.argv.imgurl}
+      />
+    );
+  };
+
+  // Youtube 만들어주기
+  createYoutube = element => {
+    return;
   };
 
   elementMove = element => {
@@ -156,6 +207,61 @@ class DroppableBox extends Component {
             key={element.id}
           >
             {this.createList(element)}
+          </Draggable>
+        );
+      } else if (element.asset === "titlebar") {
+        return (
+          <Draggable
+            id={element.id}
+            style={{ margin: "8px" }}
+            info={element}
+            key={element.ic}
+          >
+            {this.createTitlebar(element)}
+          </Draggable>
+        );
+      } else if (element.asset === "billboard") {
+        return (
+          <Draggable
+            id={element.id}
+            style={{ margin: "8px" }}
+            info={element}
+            key={element.id}
+          >
+            {this.createBillboard(element)}
+          </Draggable>
+        );
+      } else if (element.asset === "card") {
+        return (
+          <Draggable
+            id={element.id}
+            style={{ margin: "8px" }}
+            info={element}
+            key={element.id}
+          >
+            {this.createCard(element)}
+          </Draggable>
+        );
+      } else if (element.asset === "text") {
+        return (
+          <Draggable
+            id={element.id}
+            style={{ margin: "8px" }}
+            info={element}
+            key={element.id}
+          >
+            {this.createText(element)}
+          </Draggable>
+        );
+      } else if (element.asset === "image") {
+        return (
+          <Draggable
+            id={element.id}
+            style={{ margin: "8px" }}
+            info={element}
+            key={element.id}
+          >
+            {this.createImage(element)}
           </Draggable>
         );
       } else {
