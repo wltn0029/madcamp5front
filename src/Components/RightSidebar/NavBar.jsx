@@ -1,17 +1,10 @@
 import React, {Component} from 'react'
-import classNames from 'classnames';
-import Select from 'react-select';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import NoSsr from '@material-ui/core/NoSsr';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Chip from '@material-ui/core/Chip';
-import MenuItem from '@material-ui/core/MenuItem';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
 
 const useStyles =theme => ({
     root: {
@@ -61,121 +54,20 @@ const useStyles =theme => ({
     },
   });
 
-  function NoOptionsMessage(props) {
-    return (
-      <Typography
-        color="textSecondary"
-        className={props.selectProps.classes.noOptionsMessage}
-        {...props.innerProps}
-      >
-        {props.children}
-      </Typography>
-    );
-  }
-  
-  function inputComponent({ inputRef, ...props }) {
-    return <div ref={inputRef} {...props} />;
-  }
-  
-  function Control(props) {
-    return (
-      <TextField
-        fullWidth
-        InputProps={{
-          inputComponent,
-          inputProps: {
-            className: props.selectProps.classes.input,
-            inputRef: props.innerRef,
-            children: props.children,
-            ...props.innerProps,
-          },
-        }}
-        {...props.selectProps.textFieldProps}
-      />
-    );
-  }
-  
-  function Option(props) {
-    return (
-      <MenuItem
-        buttonRef={props.innerRef}
-        selected={props.isFocused}
-        component="div"
-        style={{
-          fontWeight: props.isSelected ? 500 : 400,
-        }}
-        {...props.innerProps}
-      >
-        {props.children}
-      </MenuItem>
-    );
-  }
-  
-  function Placeholder(props) {
-    return (
-      <Typography
-        color="textSecondary"
-        className={props.selectProps.classes.placeholder}
-        {...props.innerProps}
-      >
-        {props.children}
-      </Typography>
-    );
-  }
-  
-  function SingleValue(props) {
-    return (
-      <Typography className={props.selectProps.classes.singleValue} {...props.innerProps}>
-        {props.children}
-      </Typography>
-    );
-  }
-  
-  function ValueContainer(props) {
-    return <div className={props.selectProps.classes.valueContainer}>{props.children}</div>;
-  }
-  
-  function MultiValue(props) {
-    return (
-      <Chip
-        tabIndex={-1}
-        label={props.children}
-        className={classNames(props.selectProps.classes.chip, {
-          [props.selectProps.classes.chipFocused]: props.isFocused,
-        })}
-        onDelete={props.removeProps.onClick}
-        deleteIcon={<CancelIcon {...props.removeProps} />}
-      />
-    );
-  }
-  
-  function Menu(props) {
-    return (
-      <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
-        {props.children}
-      </Paper>
-    );
-  }
-  
-  const components = {
-    Control,
-    Menu,
-    MultiValue,
-    NoOptionsMessage,
-    Option,
-    Placeholder,
-    SingleValue,
-    ValueContainer,
-  };
-  
-
 class NavBar extends Component{
         
+    menuKey = 0;
+    linkKey =0;
+
     //for user input 
     state ={
         title:"",
+        menuValue: "",
+        linkValue:"", 
         menu:[],
         link:[],
+        chipData:[],
+        chipLink:[],
         editing :true
     }
     //form for server
@@ -210,26 +102,49 @@ class NavBar extends Component{
         })
     }
 
-    AddMenu = (data)=>{
+    AddMenu = ()=>{
+        let data = this.state.menuValue
         this.setState({
+            chipData : this.state.chipData.concat({
+                key : this.menuKey++,
+                label : data
+            }),
             menu : this.state.menu.concat(data)
         })
-        console.log(data)
+        console.log("chipdata",this.state.chipData)
+    }
+
+    AddLink =()=>{
+        let data = this.state.linkValue
+        this.setState({
+            chipLink : this.state.chipLink.concat({
+                key : this.linkKey++,
+                label : data
+            }),
+           link : this.state.link.concat(data)
+        })
+        console.log("chiplink",this.state.chiplink)
+    }
+
+    handleMenuDelete = (data)=>{
+        const chipToDelete = this.state.chipData.indexOf(data);
+        this.setState({
+            chipData : this.state.chipData.filter(data => data.key !== chipToDelete.key),
+            chipLink : this.state.chipLink.filter(data=>data.key!==chipToDelete.key)
+        })
+    }
+
+    handleLinkDelete =(data)=>{
+        const chipToDelete = this.state.chipLink.indexOf(data);
+        this.setState({
+            chipData : this.state.chipData.filter(data=>data.key!== chipToDelete.key),
+            chipLink : this.state.chipLink.filter(data=>data.key!==chipToDelete.key)
+        })
     }
 
     render(){
         const classes = useStyles;
-        const theme = useTheme;
-        const selectStyles = {
-            input: base => ({
-            ...base,
-            '& input': {
-                font: 'inherit',
-            },
-            }),
-        };
-        let menu;
-        let link;
+        
         return(
             <form className ={classes.container}
                   noValidate autoComplete ="off" 
@@ -250,7 +165,9 @@ class NavBar extends Component{
                     placeholder="Add multiple menu!"
                     className={classes.textField}
                     margin="normal"
-                    value ={menu}
+                    onChange={this.handleChange}
+                    name="menuValue"
+                    value={this.state.menuValue}
                 />    
                 <Fab color="primary" 
                      aria-label="Add" 
@@ -258,9 +175,62 @@ class NavBar extends Component{
                      style ={{bottom: "-20px"}}
                      size='small'
                      name = "menu"
-                     onClick = {this.AddMenu(menu)}>
+                     onClick = {() => this.AddMenu()}>
                     <AddIcon />
                 </Fab>
+                <Paper className={classes.root}
+                        placeholder = "menu">
+                    {this.state.chipData.map(data => {
+                        let icon = null;
+                        return (
+                        <Chip
+                            key={data.key}
+                            label={data.label}
+                            onDelete={()=>this.handleDelete(data)}
+                            className={classes.chip}
+                        />
+                        );
+                    })}
+                </Paper>
+                <TextField
+                    id="standard-textarea"
+                    label="link"
+                    placeholder="Add multiple link!"
+                    className={classes.textField}
+                    margin="normal"
+                    onChange={this.handleChange}
+                    name="linkValue"
+                    value={this.state.linkValue}
+                />
+                <Fab color="primary" 
+                     aria-label="Add" 
+                     className={classes.fab}
+                     style ={{bottom: "-20px"}}
+                     size='small'
+                     name = "link"
+                     onClick = {() => this.AddLink()}>
+                    <AddIcon />
+                </Fab>
+                <Paper className={classes.root}>
+                    {this.state.chipLink.map(data => {
+                        let icon = null;
+                        return (
+                        <Chip
+                            key={data.key}
+                            label={data.label}
+                            onDelete={()=>this.handleDelete(data)}
+                            className={classes.chip}
+                        />
+                        );
+                    })}
+                </Paper>
+                <Button variant="contained" 
+                    size="small" 
+                    className={classes.button}
+                    type = "submit"
+                    style ={{bottom: "-20px"}}>
+                    { this.state.editing ? 'apply' : 'change'}
+                </Button>
             </form>
         )
     }

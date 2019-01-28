@@ -194,7 +194,7 @@ class ClippedDrawer extends React.Component {
         >
           <div className={classes.toolbar} />
            <List>
-            {["Button","TitleBar", "NavBar", "List","Billboard","Card"].map((text, index) => (
+            {["Button","TitleBar", "NavBar", "List","Billboard","Card","NormalText","ResponsiveImage","YoutubeVideo"].map((text, index) => (
               <ListItem button
                 key={text}
                 onClick ={()=>this.btnClick(text)}
