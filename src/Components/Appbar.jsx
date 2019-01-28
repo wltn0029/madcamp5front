@@ -13,6 +13,15 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import ButtonIcon from "@material-ui/icons/RadioButtonChecked";
+import TitleIcon from "@material-ui/icons/FeaturedPlayList";
+import NavbarIcon from "@material-ui/icons/Navigation";
+import ListIcon from "@material-ui/icons/ViewList";
+import BillboardIcon from "@material-ui/icons/Panorama";
+import CardIcon from "@material-ui/icons/PhotoAlbum"
+
+
+
 
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -55,8 +64,7 @@ const styles = theme => ({
 let box1 = [];
 let box2 = [];
 let box3 = [];
-let htmlSource = "";
-
+let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />)];
 class ClippedDrawer extends React.Component {
 
   state = {
@@ -202,40 +210,13 @@ class ClippedDrawer extends React.Component {
                 onClick ={()=>this.btnClick(text)}
                 >
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {Buttons[index]}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
           </List>
           <Divider />
-          <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-            <ListItem button onClick={this.handleClick}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText inset primary="Inbox" />
-              {this.state.open ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Starred" />
-                </ListItem>
-              </List>
-            </Collapse>
-          </List>
         </Drawer>
 
         <main className={classes.content}>
