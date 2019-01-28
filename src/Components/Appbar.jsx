@@ -55,6 +55,7 @@ const styles = theme => ({
 let box1 = [];
 let box2 = [];
 let box3 = [];
+let htmlSource = "";
 
 class ClippedDrawer extends React.Component {
 
@@ -155,7 +156,8 @@ class ClippedDrawer extends React.Component {
       url : url,
       data : element
       }).then(function(response){
-        getid = response.headers['asset_id']
+        getid = response.headers['asset_id'];
+
         console.log("id post로 받은거",getid);
         _this.setState({
           elements : _this.state.elements.concat({id : getid, ...element})

@@ -16,12 +16,14 @@ import DivisionContent from "./divisionContent";
 let box1 = [];
 let box2 = [];
 let box3 = [];
-let box4 = [];
-let box5 = [];
-let box6 = [];
-let box7 = [];
-let box8 = [];
-let box9 = [];
+
+// ***새로추가한부분***
+let boxes = [];
+// boxes[0] = {
+//   name: "box1",
+//   state: true,
+//   elements: [],
+// }
 
 const Wrapper = styled.div`
   width: 100%;
@@ -58,10 +60,19 @@ class Center extends Component {
     showdata: this.displayData,
     checkAdd: true,
     selectedBox: "box1",
+    checkcheck: true,
   };
 
   splitHR = e => {
     console.log("split HR!");
+  }
+
+  changeBoxState = e => {
+    console.log("change box state!");
+    boxes[0].state = false;
+    this.setState({
+      checkcheck: false
+    });
   }
 
   divSelect = (e) => {
@@ -106,16 +117,38 @@ class Center extends Component {
       justCheck = false;
     }
 
+    // ***새로추가한부분***
+    boxes = [];
+    let loopCheck = true;
+    this.state.elements.map(element => {
+      boxes.map(box => {
+        if (box.name === element.div) {
+          box.elements.push(element);
+          loopCheck = false;
+        }
+      });
+      if (loopCheck === true) {
+        boxes.push({
+          name: element.div,
+          state: true,
+          elements: [element],
+        });
+      }
+      loopCheck = true;
+    });
+    console.log("boxes>>> ", boxes);
+
     return (
       <div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <DroppableBox
             boxId="box1"
             elements={box1}
+            boxElements={boxes}
             whenSomethingCame={elementMove}
             onClick={this.divSelect}
           />
-          <DroppableBox
+          {/* <DroppableBox
             boxId="box2"
             elements={box2}
             whenSomethingCame={elementMove}
@@ -124,7 +157,7 @@ class Center extends Component {
             boxId="box3"
             elements={box3}
             whenSomethingCame={elementMove}
-          />
+          /> */}
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           { division }
@@ -155,6 +188,14 @@ class Center extends Component {
               className={classes.button}
             >
               Split vertically
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick = {this.changeBoxState}
+            >
+              Remove one Component!
             </Button>
           </CardContent>
         </Card>

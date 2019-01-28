@@ -17,6 +17,14 @@ const droppableStyle = {
 };
 
 class DroppableBox extends Component {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps !== prevState) {
+      console.log("propssdssdss >>>> ", nextProps);
+      // return { elements: nextProps.elements };
+    }
+    return null;
+  }
+
   // navbar 안의 리스트 컴포넌트??만들어주기
   navbarlist = element => {
     return element.argv.menu.map(item => (
@@ -160,7 +168,17 @@ class DroppableBox extends Component {
   };
 
   render() {
-    const { boxId, elements } = this.props;
+    const { boxElements, boxId, elements } = this.props;
+
+    // 만약에 박스 state가 null이면 아예 렌더링 하지말라고...
+    boxElements.map(box => {
+      if (boxId === box.name) {
+        if (!box.state) {
+          return(null);
+        }
+        console.log("rendered??");
+      }
+    });
 
     let elementList = elements.map(element => {
       if (element.asset === "button") {
@@ -272,6 +290,7 @@ class DroppableBox extends Component {
     return (
       <div>
         <Wrapper>
+        {this.props.boxId}
           <Droppable
             id={boxId}
             style={droppableStyle}
