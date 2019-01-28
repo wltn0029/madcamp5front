@@ -17,10 +17,17 @@ const droppableStyle = {
 };
 
 class DroppableBox extends Component {
+  state = {
+    onlyForSetState : true,
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps !== prevState) {
       console.log("propssdssdss >>>> ", nextProps);
       // return { elements: nextProps.elements };
+      this.setState({
+        onlyForSetState: !this.state.onlyForSetState,
+      })
     }
     return null;
   }
