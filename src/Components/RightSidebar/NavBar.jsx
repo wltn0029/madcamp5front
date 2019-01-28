@@ -10,6 +10,8 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
 
 const useStyles =theme => ({
     root: {
@@ -208,6 +210,13 @@ class NavBar extends Component{
         })
     }
 
+    AddMenu = (data)=>{
+        this.setState({
+            menu : this.state.menu.concat(data)
+        })
+        console.log(data)
+    }
+
     render(){
         const classes = useStyles;
         const theme = useTheme;
@@ -219,7 +228,8 @@ class NavBar extends Component{
             },
             }),
         };
-
+        let menu;
+        let link;
         return(
             <form className ={classes.container}
                   noValidate autoComplete ="off" 
@@ -237,12 +247,20 @@ class NavBar extends Component{
                 <TextField
                     id="standard-textarea"
                     label="Menu"
-                    placeholder="Add multiple menus!"
+                    placeholder="Add multiple menu!"
                     className={classes.textField}
                     margin="normal"
-                    name = "title"
-                    onChange ={this.handleChange}
+                    value ={menu}
                 />    
+                <Fab color="primary" 
+                     aria-label="Add" 
+                     className={classes.fab}
+                     style ={{bottom: "-20px"}}
+                     size='small'
+                     name = "menu"
+                     onClick = {this.AddMenu(menu)}>
+                    <AddIcon />
+                </Fab>
             </form>
         )
     }

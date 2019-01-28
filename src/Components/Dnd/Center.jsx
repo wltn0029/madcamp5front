@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import DroppableBox from "./DroppableBox";
-
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -10,7 +9,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import "bootstrap/dist/css/bootstrap.css";
-
 import DivisionContent from "./divisionContent";
 
 let box1 = [];
@@ -60,16 +58,12 @@ class Center extends Component {
     selectedBox: "box1",
   };
 
-<<<<<<< HEAD
-  changeText = e => {
-=======
   splitHR = e => {
     console.log("split HR!");
   }
 
   divSelect = (e) => {
     const selectedbox = e.target.boxId;
->>>>>>> c400d06b143d0277999dd2bf805d65f3b62f7688
     this.setState({
       selectedBox: selectedbox
     });
@@ -88,86 +82,6 @@ class Center extends Component {
     return null;
   }
 
-<<<<<<< HEAD
-  // // navbar 추가하는 메소드
-  // addNavbar = e => {
-  //   e.preventDefault();
-  //   let pushingElement = {
-  //     id: "navbar" + navbarindx++,
-  //     asset: "navbar",
-  //     orientation: " vertical",
-  //     div: "box1",
-  //     argv: {
-  //         title:"portals",
-  //         menu:[
-  //             "google",
-  //             "naver",
-  //             "daum"
-  //         ],
-  //         link:[
-  //             "https://google.com",
-  //             "https://naver.com",
-  //             "https://daum.net"
-  //         ]
-  //     }
-  //   };
-  //   box1.push(pushingElement);
-  //   this.state2.elements.push(pushingElement);
-  //   this.setState({
-  //     checkAdd: !this.state.checkAdd
-  //   });
-  // }
-
-  // // 프로그레스 추가하는 메소드
-  // addProgress = e => {
-  //   e.preventDefault();
-  //   let pushingElement = {
-  //     id: "progress" + progressindx++,
-  //     asset: "progress",
-  //     orientation: " vertical",
-  //     div: "box1",
-  //     argv: {
-  //         percentage: "30"
-  //     }
-  //   };
-  //   box1.push(pushingElement);
-  //   this.state2.elements.push(pushingElement);
-  //   this.setState({
-  //     checkAdd: !this.state.checkAdd
-  //   });
-  // }
-
-  // // list 추가하는 메소드
-  // addList = e => {
-  //   e.preventDefault();
-  //   let pushingElement = {
-  //     id: "list" + listindx++,
-  //     asset: "list",
-  //     orientation: " vertical",
-  //     div: 1,
-  //     argv: {
-  //         count: 3,
-  //         menu:[
-  //             "google",
-  //             "naver",
-  //             "daum"
-  //         ],
-  //         link:[
-  //             "https://google.com",
-  //             "https://naver.com",
-  //             "https://daum.net"
-  //         ]
-  //     }
-  //   };
-  //   box1.push(pushingElement);
-  //   this.state.elements.push(pushingElement);
-  //   this.setState({
-  //     checkAdd: !this.state.checkAdd
-  //   });
-  // }
-
-=======
->>>>>>> c400d06b143d0277999dd2bf805d65f3b62f7688
   render() {
     const { classes, elementMove } = this.props;
     console.log("rendered!");
