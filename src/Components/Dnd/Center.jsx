@@ -17,11 +17,11 @@ let box3 = [];
 
 // ***새로추가한부분***
 let boxes = [];
-// boxes[0] = {
-//   name: "box1",
-//   state: true,
-//   elements: [],
-// }
+boxes[0] = {
+  name: "box1",
+  state: true,
+  elements: [],
+}
 
 const Wrapper = styled.div`
   width: 100%;
@@ -59,6 +59,7 @@ class Center extends Component {
     checkAdd: true,
     selectedBox: "box1",
     checkcheck: true,
+    boxes: [boxes[0]],
   };
 
   splitHR = e => {
@@ -67,10 +68,13 @@ class Center extends Component {
 
   changeBoxState = e => {
     console.log("change box state!");
-    boxes[0].state = false;
     this.setState({
-      checkcheck: false
-    });
+      boxes : this.state.boxes.map(box =>{
+        if(box.name ==="box1")
+           box.state=false
+        return box;
+      })
+    })
   }
 
   divSelect = (e) => {
@@ -82,40 +86,38 @@ class Center extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    console.log("state>>>>>>>>>>",prevState.boxes)
     if (nextProps.elements !== prevState.elements) {
       console.log("props >>>> ", nextProps.elements);
       justCheck = true;
       box1 = [];
       box2 = [];
       box3 = [];
-      return { elements: nextProps.elements };
+      let loopCheck = true;
+      nextProps.elements.map(element => {
+        prevState.boxes.map(box => {
+          if (box.name === element.div) {
+            box.elements.push(element);
+            loopCheck = false;
+          }
+        })
+      console.log(boxes);
+      console.log(prevState.boxes);
+      if (loopCheck === true) {
+          prevState.boxes.push({
+            name: element.div,
+            state: true,
+            elements: [element],
+          });
+        }
+        loopCheck = true;
+      });
+    return { elements: nextProps.elements};
     }
     return null;
   }
 
-  render() {
-    const { classes, elementMove } = this.props;
-    console.log("rendered!");
-
-    let division = (
-      <DivisionContent />
-    );
-
-    if (justCheck === true) {
-      this.state.elements.map(element => {
-        if (element.div === "box1") {
-          box1.push(element);
-        } else if (element.div === "box2") {
-          box2.push(element);
-        } else {
-          box3.push(element);
-        }
-        return null;
-      });
-      justCheck = false;
-    }
-
-    // ***새로추가한부분***
+  setBoxes=()=>{
     boxes = [];
     let loopCheck = true;
     this.state.elements.map(element => {
@@ -134,17 +136,32 @@ class Center extends Component {
       }
       loopCheck = true;
     });
+    this.setState({
+      boxes: boxes
+    })
     console.log("boxes>>> ", boxes);
+  }
+
+  render() {
+    const { classes, elementMove } = this.props;
+    console.log("rendered!");
+
+    let division = (
+      <DivisionContent />
+    );
+
+
+    // ***새로추가한부분***
+    
+    console.log("parent boxes>>>>>>>>>",this.state.boxes)
 
     return (
       <div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <DroppableBox
             boxId="box1"
-            elements={box1}
-            boxElements={boxes}
+            boxElements={this.state.boxes}
             whenSomethingCame={elementMove}
-            onClick={this.divSelect}
           />
           {/* <DroppableBox
             boxId="box2"
@@ -191,7 +208,7 @@ class Center extends Component {
               variant="contained"
               color="primary"
               className={classes.button}
-              onClick = {this.changeBoxState}
+              onClick = {()=>this.changeBoxState()}
             >
               Remove one Component!
             </Button>

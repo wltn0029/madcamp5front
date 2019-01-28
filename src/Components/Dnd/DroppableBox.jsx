@@ -19,15 +19,18 @@ const droppableStyle = {
 class DroppableBox extends Component {
   state = {
     onlyForSetState : true,
+    boxElements: [],
+    renderr: true,
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps !== prevState) {
-      console.log("propssdssdss >>>> ", nextProps);
+    if (nextProps.boxElements !== prevState.boxElements) {
+      console.log("prevState.boxElements >>>> ", prevState.boxElements);
+      console.log("nextProps.boxElements >>>> ", nextProps.boxElements);
       // return { elements: nextProps.elements };
-      this.setState({
-        onlyForSetState: !this.state.onlyForSetState,
-      })
+      // return{
+      //   boxElements: nextProps.boxElements
+      // };
     }
     return null;
   }
@@ -175,19 +178,27 @@ class DroppableBox extends Component {
   };
 
   render() {
-    const { boxElements, boxId, elements } = this.props;
-
-    // 만약에 박스 state가 null이면 아예 렌더링 하지말라고...
+    const { boxElements, boxId} = this.props;
+    console.log("droppablebox render", this.state.boxElements);
+    console.log("droppablebox props check", this.props.boxElements);
+    // this.setState({
+    //   boxElements: this.props.boxElements
+    // });
+    // 만약에 박스 state가 false이면 아예 렌더링 하지말라고...
     boxElements.map(box => {
+      console.log("box>>>>>>>>",box)
       if (boxId === box.name) {
-        if (!box.state) {
-          return(null);
+        console.log("box state: ", box.state);
+        if (box.state === false) {
+          // this.setState.renderr
         }
         console.log("rendered??");
+        return null;
       }
     });
-
-    let elementList = elements.map(element => {
+    // console.log("boxelements: ", boxElements[0].elements);
+    
+    let elementList = boxElements[0].elements.map(element => {
       if (element.asset === "button") {
         return (
           <Draggable
