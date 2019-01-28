@@ -50,16 +50,6 @@ class Center extends Component {
     elements : []
   };
 
-  // elementMove = (element, id) => {
-  //   console.log("finally came to parent component!", element, " id:", id);
-
-  //   let project = this.state.elements.find(p => {
-  //     return p.argv.string === element.argv.string;
-  //   });
-  //   project.div = id;
-  //   console.log("this.state2.element", this.state.elements);
-  // };
-
   changeText = e => {
     this.setState({
       textValue: e.target.value
@@ -79,82 +69,82 @@ class Center extends Component {
     return null;
   }
 
-  // navbar 추가하는 메소드
-  addNavbar = e => {
-    e.preventDefault();
-    let pushingElement = {
-      id: "navbar" + navbarindx++,
-      asset: "navbar",
-      orientation: " vertical",
-      div: "box1",
-      argv: {
-          title:"portals",
-          menu:[
-              "google",
-              "naver",
-              "daum"
-          ],
-          link:[
-              "https://google.com",
-              "https://naver.com",
-              "https://daum.net"
-          ]
-      }
-    };
-    box1.push(pushingElement);
-    this.state2.elements.push(pushingElement);
-    this.setState({
-      checkAdd: !this.state.checkAdd
-    });
-  }
+  // // navbar 추가하는 메소드
+  // addNavbar = e => {
+  //   e.preventDefault();
+  //   let pushingElement = {
+  //     id: "navbar" + navbarindx++,
+  //     asset: "navbar",
+  //     orientation: " vertical",
+  //     div: "box1",
+  //     argv: {
+  //         title:"portals",
+  //         menu:[
+  //             "google",
+  //             "naver",
+  //             "daum"
+  //         ],
+  //         link:[
+  //             "https://google.com",
+  //             "https://naver.com",
+  //             "https://daum.net"
+  //         ]
+  //     }
+  //   };
+  //   box1.push(pushingElement);
+  //   this.state2.elements.push(pushingElement);
+  //   this.setState({
+  //     checkAdd: !this.state.checkAdd
+  //   });
+  // }
 
-  // 프로그레스 추가하는 메소드
-  addProgress = e => {
-    e.preventDefault();
-    let pushingElement = {
-      id: "progress" + progressindx++,
-      asset: "progress",
-      orientation: " vertical",
-      div: "box1",
-      argv: {
-          percentage: "30"
-      }
-    };
-    box1.push(pushingElement);
-    this.state2.elements.push(pushingElement);
-    this.setState({
-      checkAdd: !this.state.checkAdd
-    });
-  }
+  // // 프로그레스 추가하는 메소드
+  // addProgress = e => {
+  //   e.preventDefault();
+  //   let pushingElement = {
+  //     id: "progress" + progressindx++,
+  //     asset: "progress",
+  //     orientation: " vertical",
+  //     div: "box1",
+  //     argv: {
+  //         percentage: "30"
+  //     }
+  //   };
+  //   box1.push(pushingElement);
+  //   this.state2.elements.push(pushingElement);
+  //   this.setState({
+  //     checkAdd: !this.state.checkAdd
+  //   });
+  // }
 
-  // list 추가하는 메소드
-  addList = e => {
-    e.preventDefault();
-    let pushingElement = {
-      id: "list" + listindx++,
-      asset: "list",
-      orientation: " vertical",
-      div: 1,
-      argv: {
-          count: 3,
-          menu:[
-              "google",
-              "naver",
-              "daum"
-          ],
-          link:[
-              "https://google.com",
-              "https://naver.com",
-              "https://daum.net"
-          ]
-      }
-    };
-    box1.push(pushingElement);
-    this.state.elements.push(pushingElement);
-    this.setState({
-      checkAdd: !this.state.checkAdd
-    });
-  }
+  // // list 추가하는 메소드
+  // addList = e => {
+  //   e.preventDefault();
+  //   let pushingElement = {
+  //     id: "list" + listindx++,
+  //     asset: "list",
+  //     orientation: " vertical",
+  //     div: 1,
+  //     argv: {
+  //         count: 3,
+  //         menu:[
+  //             "google",
+  //             "naver",
+  //             "daum"
+  //         ],
+  //         link:[
+  //             "https://google.com",
+  //             "https://naver.com",
+  //             "https://daum.net"
+  //         ]
+  //     }
+  //   };
+  //   box1.push(pushingElement);
+  //   this.state.elements.push(pushingElement);
+  //   this.setState({
+  //     checkAdd: !this.state.checkAdd
+  //   });
+  // }
 
   render() {
     const {elementMove} =this.props;
