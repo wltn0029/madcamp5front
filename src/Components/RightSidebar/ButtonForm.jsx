@@ -129,6 +129,12 @@ class ButtonForm extends Component{
         })
     }
 
+    handleDelete(){
+        if(this.props.isModifying){
+            this.props.deleteElement(this.element)
+        }
+    }
+
     static getDerivedStateFromProps(nextProps, prevState) {
         console.log("it's in getderivedstatefromprops", nextProps.elementInfo.asset);
         if (nextProps.elementInfo.asset !== "null") {
@@ -194,6 +200,13 @@ class ButtonForm extends Component{
                     className={classes.button}
                     type = "submit">
                     { this.state.editing ? 'apply' : 'change'}
+            </Button>
+            <Button variant="contained" 
+                    size="small" 
+                    className={classes.button}
+                    onClick={()=>this.props.deleteElement(this.element)}
+                    >
+                    Delete
             </Button>
              </form>
             )

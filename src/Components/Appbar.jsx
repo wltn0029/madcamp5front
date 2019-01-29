@@ -206,6 +206,10 @@ class ClippedDrawer extends React.Component {
     let beforeBox = newBoxes.slice(0,curIndex);
     let afterBox = newBoxes.slice(curIndex+1,newBoxes.length);
     console.log("newBoxArray",newBoxArray)
+    
+    let splitUrl = "http://143.248.38.50/editor/654321/";
+    splitUrl = splitUrl+'division/'+boxId;
+
     let indexBox = newBoxArray.find(box=>{
       console.log("box",box)
       if(box !== undefined) return (box.name === boxId)
@@ -249,16 +253,25 @@ class ClippedDrawer extends React.Component {
         }
       })
     })
-
     this.setState({
         boxDirection : direction,
         boxes : newBoxes,
         elements : newElements,
         boxArray : newBoxArray,
     })
+    //post 
+    axios({
+      method :'post',
+      url : splitUrl,
+      data : {
+        "orientation" : direction
+      }
+    })
   }
 
   elementMove = (element, id) => {
+    let updateUrl ="http://143.248.38.50/editor/654321/"
+    updateUrl = updateUrl+element.id
     console.log("finally came to parent component!", element, " id:", id);
     let project = this.state.elements.find(p => {
       return p.argv.string === element.argv.string;
@@ -272,8 +285,11 @@ class ClippedDrawer extends React.Component {
         }
       })
     })
-    console.log("elementMove elements>>>>>",this.state.elements)
-    console.log("this.state2.element", this.state.elements);
+    axios({
+      method :'patch',
+      url : updateUrl,
+      data : project
+    })
   };
 
   boxClicked=(boxId)=>{
@@ -283,15 +299,76 @@ class ClippedDrawer extends React.Component {
     })
   }
 
+  updateElement=  (newElement) =>{
+    let updateUrl = "http://143.248.38.50/editor/654321/"
+    updateUrl = updateUrl+newElement.id
+    let oldElement = this.state.selectedElement;
+    if(newElement !== oldElement && newElement.id === oldElement.id){
+      //first, update elements
+      let newElements = this.state.elements
+      newElements = newElements.filter(element => element.id !== newElement.id)
+      newElements = newElements.concat(newElement)
+      //then update boxes
+      let newBoxes = this.state.boxes;
+      newBoxes = newBoxes.map(box =>{
+        if(box.name === newElement.div){
+          box.elements = box.elements.filter(element=>element.id !== newElement.id)
+          box.elements.concat(newElement)
+          return box
+        }
+      })
+      //and then setstate
+      this.setState({
+        elements : newElements,
+        boxes : newBoxes
+      })
+      //patch it to server
+      axios({
+        method :'patch',
+        url : updateUrl,
+        data : newElement
+      })
+    }
+  }
+
+  deleteElement =(element)=>{
+    let deleteUrl = "http://143.248.38.50/editor/654321/"
+    deleteUrl= deleteUrl+"assets/"+element.id
+    //first delete element 
+    let newElements = this.state.elements;
+    newElements.filter(element => element.id !== element.id)
+    //then delete element in boxes
+    let newBoxes = this.state.boxes;
+    newBoxes = newBoxes.map(box=>{
+      if(box.name === element.div){
+        box.elements = box.elements.filter(element=>element.id !== element.id)
+        return box;
+      }
+    })
+    //set state
+    this.setState({
+      elements : newElements,
+      boxes : newBoxes
+    })
+    //delete it to server
+    axios({
+      method : 'delete',
+      url : deleteUrl,
+      data: element
+    })
+  }
+
   onUpdate = element => {
     console.log("#######################3", element);
     const _this = this;
-    const url = "http://143.248.38.50/editor/123456/assets";
     let getid;
+    let postUrl = "http://143.248.38.50/editor/654321/";
+    //division id 어떤 형식으로 줘야하는 지 물어보기!!
+    postUrl = postUrl+element.div+"/"+element.asset
     console.log(JSON.stringify(element));
     axios({
       method :'post',
-      url : url,
+      url : postUrl,
       data : element
       }).then(function(response){
         getid = response.headers['asset_id'];
@@ -400,6 +477,7 @@ class ClippedDrawer extends React.Component {
           <ButtonModify
             clickedComponent ={this.state.clickedComponent}
             onUpdate = {this.onUpdate}
+            deleteElement ={this.deleteElement}
             elementMove = {this.elementMove}
             elementInfo={this.state.selectedElement}
             isModifying={this.state.isModifying}/>

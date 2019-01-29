@@ -35,12 +35,12 @@ class ButtonModify extends Component {
 
   render() {
     const { component } = this.state;
-    const { onUpdate, elementInfo, isModifying } = this.props;
+    const { onUpdate, elementInfo, isModifying,deleteElement } = this.props;
     console.log(component);
 
     let showBox;
     if (component === "Button") {
-      showBox = <ButtonForm isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <ButtonForm isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} deleteElement = {deleteElement} />;
     } else if (component === "TitleBar") {
       showBox = <TitleBar isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
     } else if (component === "NavBar") {
