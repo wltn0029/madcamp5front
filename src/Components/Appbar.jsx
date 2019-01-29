@@ -325,7 +325,8 @@ class ClippedDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Center elements ={this.state.elements}
-                  elementMove = {this.elementMove}/>
+                  elementMove = {this.elementMove}
+                  boxes = {this.state.boxes}/>
                   <iframe
                     srcDoc={resbody}
                     style={{border: "solid 3px #1d4687", width: "1370px", height: "770px"}}
