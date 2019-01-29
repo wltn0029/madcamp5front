@@ -40,6 +40,16 @@ class TitleBar extends Component{
         }
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.elementInfo.asset !== "null") {
+            return {
+                title: nextProps.elementInfo.argv.title,
+                description: nextProps.elementInfo.argv.description,
+            }
+        }
+        return null;
+    }
+
     handleChange=(e)=>{
         this.setState({
             [e.target.name] : e.target.value

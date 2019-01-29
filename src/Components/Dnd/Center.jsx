@@ -52,6 +52,12 @@ class Center extends Component {
     elements:[],
   };
 
+  elementClick = (element) => {
+    console.log("it's from Center!", element);
+    // 여기서도 프롭스로 받아야됨
+    this.props.elementClick(element);
+  }
+
   splitHR = e => {
     console.log("split HR!");
   }
@@ -97,6 +103,7 @@ class Center extends Component {
             boxId = {box.name}
             elements={this.state.elements}
             whenSomethingCame={elementMove}
+            elementClick={this.elementClick}
         />
       )
     })

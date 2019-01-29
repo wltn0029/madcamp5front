@@ -7,19 +7,44 @@ class ResponsiveImage extends Component {
         imgurl: "",
     }
 
+    element = {
+        asset:"image",
+        div: 'box1',
+        argv: {
+            imgurl : ""
+        }
+    };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.elementInfo.asset !== "null") {
+            return {
+                imgurl: nextProps.elementInfo.argv.imgurl,
+            }
+        }
+        return null;
+    }
+
     handleChange = (e) => {
         this.setState({
             imgurl: e.target.value
         });
+        console.log(this.state.imgurl);
     }
 
     handleSubmit = (e) => {
         console.log("제출! 그냥 state의 imgurl만 전달하면 됩니당!");
         console.log(this.state.imgurl);
+        this.element.argv.imgurl = this.state.imgurl;
+        console.log(this.element.argv.imgurl, "#333333333333333333333333");
+        console.log("#@@@@@@@@@@@@@@@@@@@", this.element.argv.imgurl);
+        
         // 전달하기1!!
+        this.props.onCreate(this.element);
+        console.log("dkkkkkkkkkkkkkkkkkkkkkkkkkk", this.element);
+        // this.element.argv.imgurl = "";
         this.setState({
             imgurl: ""
-        })
+        });
     }
 
     render() {

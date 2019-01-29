@@ -108,7 +108,7 @@ class ButtonForm extends Component{
         this.element.argv.class = this.state.class;
         this.element.argv.string = this.state.string;
         this.element.argv.href = this.state.href;
-        console.log(this.element)
+        console.log("띠링띠링띠링띠링띠링띠링띠링", this.element)
         if(this.state.editing){
             this.props.onCreate(this.element)
         }
@@ -128,9 +128,23 @@ class ButtonForm extends Component{
             setOpen : true
         })
     }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        console.log("it's in getderivedstatefromprops", nextProps.elementInfo.asset);
+        if (nextProps.elementInfo.asset !== "null") {
+            return {
+                string: nextProps.elementInfo.argv.string,
+                href: nextProps.elementInfo.argv.href,
+                class: nextProps.elementInfo.argv.class,
+            }
+        }
+        return null;
+    }
     
     render(){
-        const {classes} = this.props;
+        const {classes, elementInfo} = this.props;
+        console.log("this.state.string", this.state.string);
+        console.log("this.state.string", this.state.href);
         return(
             <form className={classes.root} autoComplete="off" onSubmit ={this.handleSubmit}>
             <FormControl className={classes.margin}>
@@ -160,6 +174,7 @@ class ButtonForm extends Component{
              <TextField
                 id="standard-uncontrolled"
                 label="Button Name"
+                value={this.state.string}
                 margin="normal"
                 onChange = {this.handleChange}
                 name = "string"

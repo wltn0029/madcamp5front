@@ -81,6 +81,20 @@ class NavBar extends Component{
           link:[]
       }
     }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.elementInfo.asset !== "null") {
+            return {
+                title: nextProps.elementInfo.argv.title,
+                menu: nextProps.elementInfo.argv.menu,
+                link: nextProps.elementInfo.argv.link,
+                chipData: nextProps.elementInfo.argv.menu,
+                chipLink: nextProps.elementInfo.argv.link,
+            }
+        }
+        return null;
+    }
+
     //when user change value of component
     handleChange=(e)=>{
         console.log("Navbar",e.target.value)

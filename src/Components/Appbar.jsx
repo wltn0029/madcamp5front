@@ -68,9 +68,11 @@ var prismCode;
 let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />)];
 class ClippedDrawer extends React.Component {
   state = {
+    isModifying: false,
     justCheck: true,
     open: true,
     clickedComponent : '',
+    selectedElement: {asset: "null"},
     load:false,
     elements : [{
         asset: "button",
@@ -206,6 +208,12 @@ class ClippedDrawer extends React.Component {
       clickedComponent: component
     });
     console.log(component+" clicked")
+    const tempObj = {asset: "null"}
+    this.setState({
+      selectedElement: tempObj,
+      isModifying: false,
+    });
+    console.log("after clicked????????????", this.state.selectedElement);
   };
 
   ClearBox = ()=>{
@@ -215,6 +223,35 @@ class ClippedDrawer extends React.Component {
         return box
       })
     })
+  }
+
+  elementClick = (element) => {
+    let typeStr;
+    console.log("ELEMENT!!!!!!!!!", element);
+    if (element.asset === "button") {
+      typeStr = "Button";
+    } else if (element.asset === "navbar") {
+      typeStr = "NavBar";
+    } else if (element.asset === "list") {
+      typeStr = "List";
+    } else if (element.asset === "billboard") {
+      typeStr = "Billboard";
+    } else if (element.asset === "titlebar") {
+      typeStr = "TitleBar";
+    } else if (element.asset === "card") {
+      typeStr = "Card";
+    } else if (element.asset === "text") {
+      typeStr = "NormalText";
+    } else if (element.asset === "image") {
+      typeStr = "ResponsiveImage";
+    } else if (element.asset === "youtube") {
+      typeStr = "YoutubeVideo"
+    }
+    this.setState({
+      clickedComponent: typeStr,
+      selectedElement: element,
+      isModifying: true,
+    });
   }
 
   elementMove = (element, id) => {
@@ -247,6 +284,7 @@ class ClippedDrawer extends React.Component {
   }
 
   onUpdate = element => {
+    console.log("#######################3", element);
     const _this = this;
     const url = "http://143.248.38.50/editor/123456/assets";
     let getid;
@@ -282,6 +320,11 @@ class ClippedDrawer extends React.Component {
     return new Promise((resolve)=>{
       this.setState(state, resolve)
     })
+  }
+
+  getLog = () => {
+    console.log("clickedCompoenent//////////////", this.state.clickedComponent);
+    console.log("after clicked/////////////", this.state.selectedElement);
   }
 
   render() {
@@ -320,13 +363,15 @@ class ClippedDrawer extends React.Component {
             ))}
           </List>
           <Divider />
+          <Button onClick={this.getLog}>GETLOG!</Button> 
         </Drawer>
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Center elements ={this.state.elements}
                   elementMove = {this.elementMove}
-                  boxes = {this.state.boxes}/>
+                  boxes={this.state.boxes}
+                  elementClick={this.elementClick}/>
                   <iframe
                     srcDoc={resbody}
                     style={{border: "solid 3px #1d4687", width: "1370px", height: "770px"}}
@@ -354,7 +399,9 @@ class ClippedDrawer extends React.Component {
           <ButtonModify
             clickedComponent ={this.state.clickedComponent}
             onUpdate = {this.onUpdate}
-            elementMove = {this.elementMove}/>
+            elementMove = {this.elementMove}
+            elementInfo={this.state.selectedElement}
+            isModifying={this.state.isModifying}/>
         </Drawer>
       </div>
     );

@@ -12,9 +12,13 @@ class Draggable extends Component {
     e.stopPropagation();
   }
 
+  handleClick = (e) => {
+    this.props.elementClick(this.props.element);
+  }
+
   render() {
     return (
-      <div id={this.props.id} draggable="true" onDragStart={this.drag} onDragOver={this.noAllowDrop} style={this.props.style} style={{margin: "5px", float: "left" ,width: "auto", border: "solid 1px white"}}>
+      <div onClick={this.handleClick} id={this.props.id} draggable="true" onDragStart={this.drag} onDragOver={this.noAllowDrop} style={this.props.style} style={{margin: "5px", float: "left" ,width: "auto", border: "solid 1px white"}}>
         {this.props.children}
       </div>
     );

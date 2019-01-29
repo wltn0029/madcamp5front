@@ -7,6 +7,24 @@ class YoutubeVideo extends Component {
         videourl: "",
     }
 
+    element = {
+        asset:"youtube",
+        div: 'box1',
+        argv: {
+            link:""
+    
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.elementInfo.asset !== "null") {
+            return {
+                videourl: nextProps.elementInfo.argv.link,
+            }
+        }
+        return null;
+    }
+
     handleChange = (e) => {
         this.setState({
             videourl: e.target.value
@@ -16,10 +34,13 @@ class YoutubeVideo extends Component {
     handleSubmit = (e) => {
         console.log("제출! 그냥 state의 videourl만 전달하면 됩니당!");
         console.log(this.state.videourl);
+        this.element.argv.llnk = this.state.videourl;
+        this.props.onCreate(this.element);
         // 전달하기1!!
         this.setState({
             videourl: ""
-        })
+        });
+        this.element.argv.link = "";
     }
 
     render() {

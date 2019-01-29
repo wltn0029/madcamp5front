@@ -170,12 +170,16 @@ class DroppableBox extends Component {
 
   // Youtube 만들어주기
   createYoutube = element => {
-    return;
+   return (<iframe width="560" height="315" src={element.argv.link} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>)
   };
 
   elementMove = element => {
     this.props.whenSomethingCame(element, this.props.boxId);
   };
+
+  elementClick = (element) => {
+    this.props.elementClick(element);
+  }
 
   render() {
     const { elements, boxId} = this.props;
@@ -183,20 +187,22 @@ class DroppableBox extends Component {
     //   boxElements: this.props.boxElements
     // });
     // 만약에 박스 state가 false이면 아예 렌더링 하지말라고...
-    let showbox=elements.map(element => {
+    let showbox = elements.map(element => {
         if (element.div === boxId) {
-          return (
+            if (element.asset === "button") {
+              return(
             <Draggable
               id={element.argv.string}
               style={{ margin: "8px" }}
               info={element}
               key={element.argv.string}
+              element={element}
+              elementClick={this.elementClick}
             >
               <button type="button" className={element.argv.class}>
                 {element.argv.string}
               </button>
-            </Draggable>
-          );
+            </Draggable>);
         } else if (element.asset === "navbar") {
           return (
             <Draggable
@@ -204,6 +210,8 @@ class DroppableBox extends Component {
               style={{ margin: "8px" }}
               info={element}
               key={element.argv.title}
+              element={element}
+              elementClick={this.props.elementClick}
             >
               {this.createnavbar(element)}
             </Draggable>
@@ -215,6 +223,8 @@ class DroppableBox extends Component {
               style={{ margin: "8px" }}
               info={element}
               key={element.id}
+              element={element}
+              elementClick={this.props.elementClick}
             >
               {this.createProgress(element)}
             </Draggable>
@@ -226,6 +236,8 @@ class DroppableBox extends Component {
               style={{ margin: "8px" }}
               info={element}
               key={element.id}
+              element={element}
+              elementClick={this.props.elementClick}
             >
               {this.createList(element)}
             </Draggable>
@@ -236,7 +248,9 @@ class DroppableBox extends Component {
               id={element.id}
               style={{ margin: "8px" }}
               info={element}
-              key={element.ic}
+              key={element.id}
+              element={element}
+              elementClick={this.props.elementClick}
             >
               {this.createTitlebar(element)}
             </Draggable>
@@ -248,6 +262,8 @@ class DroppableBox extends Component {
               style={{ margin: "8px" }}
               info={element}
               key={element.id}
+              element={element}
+              elementClick={this.props.elementClick}
             >
               {this.createBillboard(element)}
             </Draggable>
@@ -259,6 +275,8 @@ class DroppableBox extends Component {
               style={{ margin: "8px" }}
               info={element}
               key={element.id}
+              element={element}
+              elementClick={this.props.elementClick}
             >
               {this.createCard(element)}
             </Draggable>
@@ -270,6 +288,8 @@ class DroppableBox extends Component {
               style={{ margin: "8px" }}
               info={element}
               key={element.id}
+              element={element}
+              elementClick={this.props.elementClick}
             >
               {this.createText(element)}
             </Draggable>
@@ -281,14 +301,16 @@ class DroppableBox extends Component {
               style={{ margin: "8px" }}
               info={element}
               key={element.id}
+              element={element}
+              elementClick={this.props.elementClick}
             >
               {this.createImage(element)}
             </Draggable>
           );
-        } else {
+        }} else {
           return null;
         }
-      })
+    })
     // console.log("boxelements: ", boxElements[0].elements);
         return (
           <div>

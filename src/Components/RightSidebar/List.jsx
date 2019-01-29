@@ -84,6 +84,17 @@ class List extends Component{
         } 
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.elementInfo.asset !== "null") {
+            return {
+                menu: nextProps.elementInfo.argv.menu, 
+                link: nextProps.elementInfo.argv.link,
+                count: nextProps.elementInfo.argv.count,
+            }
+        }
+        return null;
+    }
+
     handleChange=(e)=>{
         this.setState({
             [e.target.name] : e.target.value

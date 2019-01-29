@@ -17,15 +17,50 @@ class Card extends Component {
         btnlink: "",
     }
 
+    element = {
+        asset: "card",
+        div: 'box1',
+        argv: {
+            imgurl:"",
+            title :"",
+            description: "",
+            btntext: "",
+            link: "" 	
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.elementInfo.asset !== "null") {
+            return {
+                imgUrl: nextProps.elementInfo.argv.imgurl,
+                title: nextProps.elementInfo.argv.title,
+                description: nextProps.elementInfo.argv.description,
+                btntext: nextProps.elementInfo.argv.btntext,
+                btnlink: nextProps.elementInfo.argv.link,
+            }
+        }
+        return null;
+    }
+
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
+    // imgUrl: "",
+    //     title: "",
+    //     description: "",
+    //     btntext: "",
+    //     btnlink: "",
+
     submitBtn = (e) => {
-        console.log("제출합니다! 기능 연결은 나중에...");
-        console.log(this.state);
+        e.preventDefault();
+        this.element.argv.imgurl = this.state.imgUrl;
+        this.element.argv.title = this.state.title;
+        this.element.argv.description = this.state.description;
+        this.element.argv.btntext = this.state.btntext;
+        this.element.argv.link = this.state.btnlink;
         this.setState({
             imgUrl: "",
             title: "",
@@ -33,6 +68,7 @@ class Card extends Component {
             btntext: "",
             btnlink: "",
         });
+        this.props.onCreate(this.element);
     }
 
     render() {

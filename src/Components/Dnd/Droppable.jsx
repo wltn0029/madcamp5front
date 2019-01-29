@@ -6,7 +6,7 @@ class Droppable extends Component {
     e.preventDefault();
     const data = e.dataTransfer.getData('transfer');
     const dataInfo = JSON.parse(e.dataTransfer.getData('transferInfo'));
-    e.target.appendChild(document.getElementById(data));
+    // e.target.appendChild(document.getElementById(data));
     this.props.whenSomethingCame(dataInfo);
   }
 

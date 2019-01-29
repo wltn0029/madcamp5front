@@ -7,6 +7,23 @@ class NormalText extends Component {
         textInput: "",
     }
 
+    element = {
+        asset: "text",
+        div: 'box1',
+        argv: {
+      	text : ""
+      }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.elementInfo.asset !== "null") {
+            return {
+                textInput: nextProps.elementInfo.argv.text,
+            }
+        }
+        return null;
+    }
+
     handleChange = (e) => {
         this.setState({
             textInput: e.target.value
@@ -16,10 +33,18 @@ class NormalText extends Component {
     handleSubmit = (e) => {
         console.log("제출! 그냥 state의 textinput만 전달하면 됩니당!");
         console.log(this.state.textInput);
-        // 전달하기1!!
+        this.element.argv.text = this.state.textInput;
+        this.props.onCreate(this.element);
         this.setState({
             textInput: ""
-        })
+        });
+        this.element = {
+            asset: "text",
+            div: 'box1',
+            argv: {
+            text : ""
+            }
+        };
     }
 
     render() {
