@@ -331,7 +331,7 @@ class ClippedDrawer extends React.Component {
                   <div
                     style={{border: "solid 3px #1d4687", width: "1370px"} }
                     >
-                    <Highlight language={"html"}>{resbody}</Highlight>
+                    <Highlight language={"html"} >{resbody}</Highlight>
                     </div>
 
 
