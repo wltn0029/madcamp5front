@@ -27,15 +27,15 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import Collapse from '@material-ui/core/Collapse';
-
 import ButtonModify from './RightSidebar/ButtonModify';
 import { Button } from "@material-ui/core";
 import Center from '../Components/Dnd/Center';
-
 import axios from 'axios';
-
 // import DropTarget from '../DnD/DropTarget';
-
+//require('prismjs');
+//require('prismjs/themes/prism.css');
+import Prism from "prismjs";
+import "./prism.css";
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -60,13 +60,13 @@ const styles = theme => ({
   },
   toolbar: theme.mixins.toolbar
 });
-
 let box1 = [];
 let box2 = [];
 let box3 = [];
+let resbody;
+var prismCode;
 let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />)];
 class ClippedDrawer extends React.Component {
-
   state = {
     justCheck: true,
     open: true,
@@ -165,7 +165,9 @@ class ClippedDrawer extends React.Component {
       data : element
       }).then(function(response){
         getid = response.headers['asset_id'];
-
+        resbody = response.data.toString().trim();
+        console.log(resbody);
+        console.log(typeof resbody);
         console.log("id post로 받은거",getid);
         _this.setState({
           elements : _this.state.elements.concat({id : getid, ...element})
@@ -223,6 +225,17 @@ class ClippedDrawer extends React.Component {
           <div className={classes.toolbar} />
           <Center elements ={this.state.elements}
                   elementMove = {this.elementMove}/>
+                  <iframe 
+                    srcDoc={resbody}
+                    style={{border: "solid 3px #1d4687", width: "1370px", height: "770px"}}
+                  ></iframe>
+                  <div
+                    style={{border: "solid 3px #1d4687", width: "1370px", height: "470px"} }
+                    >
+                    <pre><code class="language-html">{resbody}</code></pre>
+                    </div>
+
+                  
         </main>
             
         {/* Right Sidebar */}
