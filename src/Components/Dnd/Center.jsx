@@ -11,18 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import "bootstrap/dist/css/bootstrap.css";
 import DivisionContent from "./divisionContent";
 
-let box1 = [];
-let box2 = [];
-let box3 = [];
-
 // ***새로추가한부분***
-let boxes = [];
-boxes[0] = {
-  name: "box1",
-  state: true,
-  elements: [],
-}
-
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
@@ -59,7 +48,8 @@ class Center extends Component {
     checkAdd: true,
     selectedBox: "box1",
     checkcheck: true,
-    boxes: [boxes[0]],
+    boxes: [],
+    elements:[],
   };
 
   splitHR = e => {
@@ -68,13 +58,7 @@ class Center extends Component {
 
   changeBoxState = e => {
     console.log("change box state!");
-    this.setState({
-      boxes : this.state.boxes.map(box =>{
-        if(box.name ==="box1")
-           box.state=false
-        return box;
-      })
-    })
+    this.props.RemoveBox();
   }
 
   divSelect = (e) => {
@@ -86,60 +70,13 @@ class Center extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("state>>>>>>>>>>",prevState.boxes)
-    if (nextProps.elements !== prevState.elements) {
-      console.log("props >>>> ", nextProps.elements);
+    if (nextProps.elements !== prevState.elements || nextProps.boxes!==prevState.boxes) {
+      console.log("center elements>>>>> from parent",nextProps.elements)
       justCheck = true;
-      box1 = [];
-      box2 = [];
-      box3 = [];
-      let loopCheck = true;
-      nextProps.elements.map(element => {
-        prevState.boxes.map(box => {
-          if (box.name === element.div) {
-            box.elements.push(element);
-            loopCheck = false;
-          }
-        })
-      console.log(boxes);
-      console.log(prevState.boxes);
-      if (loopCheck === true) {
-          prevState.boxes.push({
-            name: element.div,
-            state: true,
-            elements: [element],
-          });
-        }
-        loopCheck = true;
-      });
-    return { elements: nextProps.elements};
+      return { elements: nextProps.elements,
+                boxes : nextProps.boxes};
     }
     return null;
-  }
-
-  setBoxes=()=>{
-    boxes = [];
-    let loopCheck = true;
-    this.state.elements.map(element => {
-      boxes.map(box => {
-        if (box.name === element.div) {
-          box.elements.push(element);
-          loopCheck = false;
-        }
-      });
-      if (loopCheck === true) {
-        boxes.push({
-          name: element.div,
-          state: true,
-          elements: [element],
-        });
-      }
-      loopCheck = true;
-    });
-    this.setState({
-      boxes: boxes
-    })
-    console.log("boxes>>> ", boxes);
   }
 
   render() {
@@ -154,38 +91,26 @@ class Center extends Component {
     // ***새로추가한부분***
     
     console.log("parent boxes>>>>>>>>>",this.state.boxes)
-
+    let showBox =this.state.boxes.map(box=>{
+      return (
+        <DroppableBox
+            boxId = {box.name}
+            elements={this.state.elements}
+            whenSomethingCame={elementMove}
+        />
+      )
+    })
+    console.log("showbox>>>>>>>",showBox)
     return (
       <div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <DroppableBox
-            boxId="box1"
-            boxElements={this.state.boxes}
-            whenSomethingCame={elementMove}
-          />
-          {/* <DroppableBox
-            boxId="box2"
-            elements={box2}
-            whenSomethingCame={elementMove}
-          />
-          <DroppableBox
-            boxId="box3"
-            elements={box3}
-            whenSomethingCame={elementMove}
-          /> */}
+        <div>
+          {showBox}
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           { division }
           {/* <div style={{border: "1px solid black"}}>dkjfsfj</div> */}
         </div>
-
-        {/* 서버에서 받아서 iframe 에다가 코드 넣어줘야함 */}
-        {/* <iframe
-          width="800px"
-          height="200px"
-          srcDoc="<html><body>Hello, <b>world</b>.</body></html>"
-        /> */}
-
+        <div>
         {/* division 나눌 수 있게 버튼 추가한 카드 */}
         <Card className={classes.card}>
           <CardContent>
@@ -214,6 +139,7 @@ class Center extends Component {
             </Button>
           </CardContent>
         </Card>
+      </div>
       </div>
     );
   }

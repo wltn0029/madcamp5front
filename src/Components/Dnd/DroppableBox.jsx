@@ -178,148 +178,132 @@ class DroppableBox extends Component {
   };
 
   render() {
-    const { boxElements, boxId} = this.props;
-    console.log("droppablebox render", this.state.boxElements);
-    console.log("droppablebox props check", this.props.boxElements);
+    const { elements, boxId} = this.props;
     // this.setState({
     //   boxElements: this.props.boxElements
     // });
     // 만약에 박스 state가 false이면 아예 렌더링 하지말라고...
-    boxElements.map(box => {
-      console.log("box>>>>>>>>",box)
-      if (boxId === box.name) {
-        console.log("box state: ", box.state);
-        if (box.state === false) {
-          // this.setState.renderr
+    let showbox=elements.map(element => {
+        if (element.div === boxId) {
+          return (
+            <Draggable
+              id={element.argv.string}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.argv.string}
+            >
+              <button type="button" className={element.argv.class}>
+                {element.argv.string}
+              </button>
+            </Draggable>
+          );
+        } else if (element.asset === "navbar") {
+          return (
+            <Draggable
+              id={element.argv.title}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.argv.title}
+            >
+              {this.createnavbar(element)}
+            </Draggable>
+          );
+        } else if (element.asset === "progress") {
+          return (
+            <Draggable
+              id={element.id}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.id}
+            >
+              {this.createProgress(element)}
+            </Draggable>
+          );
+        } else if (element.asset === "list") {
+          return (
+            <Draggable
+              id={element.id}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.id}
+            >
+              {this.createList(element)}
+            </Draggable>
+          );
+        } else if (element.asset === "titlebar") {
+          return (
+            <Draggable
+              id={element.id}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.ic}
+            >
+              {this.createTitlebar(element)}
+            </Draggable>
+          );
+        } else if (element.asset === "billboard") {
+          return (
+            <Draggable
+              id={element.id}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.id}
+            >
+              {this.createBillboard(element)}
+            </Draggable>
+          );
+        } else if (element.asset === "card") {
+          return (
+            <Draggable
+              id={element.id}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.id}
+            >
+              {this.createCard(element)}
+            </Draggable>
+          );
+        } else if (element.asset === "text") {
+          return (
+            <Draggable
+              id={element.id}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.id}
+            >
+              {this.createText(element)}
+            </Draggable>
+          );
+        } else if (element.asset === "image") {
+          return (
+            <Draggable
+              id={element.id}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.id}
+            >
+              {this.createImage(element)}
+            </Draggable>
+          );
+        } else {
+          return null;
         }
-        console.log("rendered??");
-        return null;
-      }
-    });
+      })
     // console.log("boxelements: ", boxElements[0].elements);
-    
-    let elementList = boxElements[0].elements.map(element => {
-      if (element.asset === "button") {
         return (
-          <Draggable
-            id={element.argv.string}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.argv.string}
-          >
-            <button type="button" className={element.argv.class}>
-              {element.argv.string}
-            </button>
-          </Draggable>
+          <div>
+            <Wrapper>
+            {this.props.boxId}
+              <Droppable
+                style={droppableStyle}
+                whenSomethingCame={this.elementMove}
+              >
+                {showbox}
+              </Droppable>
+            </Wrapper>
+          </div>
         );
-      } else if (element.asset === "navbar") {
-        return (
-          <Draggable
-            id={element.argv.title}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.argv.title}
-          >
-            {this.createnavbar(element)}
-          </Draggable>
-        );
-      } else if (element.asset === "progress") {
-        return (
-          <Draggable
-            id={element.id}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.id}
-          >
-            {this.createProgress(element)}
-          </Draggable>
-        );
-      } else if (element.asset === "list") {
-        return (
-          <Draggable
-            id={element.id}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.id}
-          >
-            {this.createList(element)}
-          </Draggable>
-        );
-      } else if (element.asset === "titlebar") {
-        return (
-          <Draggable
-            id={element.id}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.ic}
-          >
-            {this.createTitlebar(element)}
-          </Draggable>
-        );
-      } else if (element.asset === "billboard") {
-        return (
-          <Draggable
-            id={element.id}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.id}
-          >
-            {this.createBillboard(element)}
-          </Draggable>
-        );
-      } else if (element.asset === "card") {
-        return (
-          <Draggable
-            id={element.id}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.id}
-          >
-            {this.createCard(element)}
-          </Draggable>
-        );
-      } else if (element.asset === "text") {
-        return (
-          <Draggable
-            id={element.id}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.id}
-          >
-            {this.createText(element)}
-          </Draggable>
-        );
-      } else if (element.asset === "image") {
-        return (
-          <Draggable
-            id={element.id}
-            style={{ margin: "8px" }}
-            info={element}
-            key={element.id}
-          >
-            {this.createImage(element)}
-          </Draggable>
-        );
-      } else {
-        return null;
-      }
-    });
-
-    return (
-      <div>
-        <Wrapper>
-        {this.props.boxId}
-          <Droppable
-            id={boxId}
-            style={droppableStyle}
-            whenSomethingCame={this.elementMove}
-          >
-            {elementList}
-          </Droppable>
-        </Wrapper>
-      </div>
-    );
+    }
   }
-}
 
 export default DroppableBox;
