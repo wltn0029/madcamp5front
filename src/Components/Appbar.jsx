@@ -43,7 +43,7 @@ const styles = theme => ({
     display: "flex"
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1, 
+    zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
     width: drawerWidth,
@@ -132,8 +132,75 @@ class ClippedDrawer extends React.Component {
           string: "btn6"
         }
       }],
+      boxes : [
+        {
+          name : "box1",
+          elements :[
+            {
+              asset: "button",
+              orientation: " vertical",
+              div: "box1",
+              argv: {
+                class: "btn btn-primary",
+                href: "",
+                string: "btn1"
+              }
+            },
+            {
+              asset: "button",
+              orientation: " vertical",
+              div: "box1",
+              argv: {
+                class: "btn btn-primary",
+                href: "",
+                string: "btn2"
+              }
+            },
+            {
+              asset: "button",
+              orientation: " vertical",
+              div: "box2",
+              argv: {
+                class: "btn btn-primary",
+                href: "",
+                string: "btn3"
+              }
+            },
+            {
+              asset: "button",
+              orientation: " vertical",
+              div: "box2",
+              argv: {
+                class: "btn btn-primary",
+                href: "",
+                string: "btn4"
+              }
+            },
+            {
+              asset: "button",
+              orientation: " vertical",
+              div: "box3",
+              argv: {
+                class: "btn btn-primary",
+                href: "",
+                string: "btn5"
+              }
+            },
+            {
+              asset: "button",
+              orientation: " vertical",
+              div: "box3",
+              argv: {
+                class: "btn btn-primary",
+                href: "",
+                string: "btn6"
+              }
+            }
+          ]
+        },
+      ],
   };
- 
+
   btnClick =  (component) => {
     this.setState({
       clickedComponent: component
@@ -141,18 +208,43 @@ class ClippedDrawer extends React.Component {
     console.log(component+" clicked")
   };
 
+  ClearBox = ()=>{
+    this.setState({
+      boxes : this.state.boxes.map(box=>{
+        box.elements = []
+        return box
+      })
+    })
+  }
+
   elementMove = (element, id) => {
     console.log("finally came to parent component!", element, " id:", id);
     let project = this.state.elements.find(p => {
       return p.argv.string === element.argv.string;
     });
     project.div = id;
+    this.ClearBox();
+    this.state.elements.map(element=>{
+      this.state.boxes.map(box=>{
+        if(box.name === element.div){
+          box.elements.push(element);
+        }
+      })
+    })
+    console.log("elementMove elements>>>>>",this.state.elements)
     const justcheck2 = this.state.justCheck;
     this.setState({
       justCheck: !justcheck2
     });
     console.log("this.state2.element", this.state.elements);
   };
+
+  RemoveBox=()=>{
+    this.setState({
+      boxes : this.state.boxes.filter(box => box.name!=="box1")
+    })
+    console.log("remove box executes well????????",this.state.boxes);
+  }
 
   onUpdate = element => {
     const _this = this;
@@ -171,6 +263,15 @@ class ClippedDrawer extends React.Component {
         _this.setState({
           elements : _this.state.elements.concat({id : getid, ...element})
         })
+        //update box per element
+        _this.setState({
+          boxes : _this.state.boxes.map(box =>{
+            if(box.name == element.div){
+              box.push(element)
+              return box;
+            }
+          })
+        })
       })
       .catch(function(error){
         console.log(error);
@@ -185,7 +286,8 @@ class ClippedDrawer extends React.Component {
 
   render() {
     console.log("appbar render")
-    const { classes } = this.props;    
+    console.log(this.state.boxes)
+    const { classes } = this.props;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -224,7 +326,7 @@ class ClippedDrawer extends React.Component {
           <div className={classes.toolbar} />
           <Center elements ={this.state.elements}
                   elementMove = {this.elementMove}/>
-                  <iframe 
+                  <iframe
                     srcDoc={resbody}
                     style={{border: "solid 3px #1d4687", width: "1370px", height: "770px"}}
                   ></iframe>
@@ -234,9 +336,9 @@ class ClippedDrawer extends React.Component {
                     <pre><code class="language-html">{resbody}</code></pre>
                     </div>
 
-                  
+
         </main>
-            
+
         {/* Right Sidebar */}
         <Drawer
           className={classes.drawer}
@@ -248,7 +350,7 @@ class ClippedDrawer extends React.Component {
         >
           <div className={classes.toolbar} />
           {/* 선택한, 각각의 요소 변형할 수 있는 컴포넌트 */}
-          <ButtonModify 
+          <ButtonModify
             clickedComponent ={this.state.clickedComponent}
             onUpdate = {this.onUpdate}
             elementMove = {this.elementMove}/>

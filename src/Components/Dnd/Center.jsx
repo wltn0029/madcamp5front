@@ -11,18 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import "bootstrap/dist/css/bootstrap.css";
 import DivisionContent from "./divisionContent";
 
-let box1 = [];
-let box2 = [];
-let box3 = [];
-
 // ***새로추가한부분***
-let boxes = [];
-// boxes[0] = {
-//   name: "box1",
-//   state: true,
-//   elements: [],
-// }
-
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
@@ -59,6 +48,8 @@ class Center extends Component {
     checkAdd: true,
     selectedBox: "box1",
     checkcheck: true,
+    boxes: [],
+    elements:[],
   };
 
   splitHR = e => {
@@ -67,10 +58,7 @@ class Center extends Component {
 
   changeBoxState = e => {
     console.log("change box state!");
-    boxes[0].state = false;
-    this.setState({
-      checkcheck: false
-    });
+    this.props.RemoveBox();
   }
 
   divSelect = (e) => {
@@ -82,13 +70,11 @@ class Center extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.elements !== prevState.elements) {
-      console.log("props >>>> ", nextProps.elements);
+    if (nextProps.elements !== prevState.elements || nextProps.boxes!==prevState.boxes) {
+      console.log("center elements>>>>> from parent",nextProps.elements)
       justCheck = true;
-      box1 = [];
-      box2 = [];
-      box3 = [];
-      return { elements: nextProps.elements };
+      return { elements: nextProps.elements,
+                boxes : nextProps.boxes};
     }
     return null;
   }
@@ -101,74 +87,30 @@ class Center extends Component {
       <DivisionContent />
     );
 
-    if (justCheck === true) {
-      this.state.elements.map(element => {
-        if (element.div === "box1") {
-          box1.push(element);
-        } else if (element.div === "box2") {
-          box2.push(element);
-        } else {
-          box3.push(element);
-        }
-        return null;
-      });
-      justCheck = false;
-    }
 
     // ***새로추가한부분***
-    boxes = [];
-    let loopCheck = true;
-    this.state.elements.map(element => {
-      boxes.map(box => {
-        if (box.name === element.div) {
-          box.elements.push(element);
-          loopCheck = false;
-        }
-      });
-      if (loopCheck === true) {
-        boxes.push({
-          name: element.div,
-          state: true,
-          elements: [element],
-        });
-      }
-      loopCheck = true;
-    });
-    console.log("boxes>>> ", boxes);
-
+    
+    console.log("parent boxes>>>>>>>>>",this.state.boxes)
+    let showBox =this.state.boxes.map(box=>{
+      return (
+        <DroppableBox
+            boxId = {box.name}
+            elements={this.state.elements}
+            whenSomethingCame={elementMove}
+        />
+      )
+    })
+    console.log("showbox>>>>>>>",showBox)
     return (
       <div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <DroppableBox
-            boxId="box1"
-            elements={box1}
-            boxElements={boxes}
-            whenSomethingCame={elementMove}
-            onClick={this.divSelect}
-          />
-          {/* <DroppableBox
-            boxId="box2"
-            elements={box2}
-            whenSomethingCame={elementMove}
-          />
-          <DroppableBox
-            boxId="box3"
-            elements={box3}
-            whenSomethingCame={elementMove}
-          /> */}
+        <div>
+          {showBox}
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           { division }
           {/* <div style={{border: "1px solid black"}}>dkjfsfj</div> */}
         </div>
-
-        {/* 서버에서 받아서 iframe 에다가 코드 넣어줘야함 */}
-        {/* <iframe
-          width="800px"
-          height="200px"
-          srcDoc="<html><body>Hello, <b>world</b>.</body></html>"
-        /> */}
-
+        <div>
         {/* division 나눌 수 있게 버튼 추가한 카드 */}
         <Card className={classes.card}>
           <CardContent>
@@ -191,12 +133,13 @@ class Center extends Component {
               variant="contained"
               color="primary"
               className={classes.button}
-              onClick = {this.changeBoxState}
+              onClick = {()=>this.changeBoxState()}
             >
               Remove one Component!
             </Button>
           </CardContent>
         </Card>
+      </div>
       </div>
     );
   }
