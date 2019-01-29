@@ -130,6 +130,12 @@ class ButtonForm extends Component{
         })
     }
 
+    handleDelete(){
+        if(this.props.isModifying){
+            this.props.deleteElement(this.element)
+        }
+    }
+
     static getDerivedStateFromProps(nextProps, prevState) {
         console.log("it's in getderivedstatefromprops", nextProps.elementInfo.asset);
         if (nextProps.elementInfo.asset !== "null") {
@@ -142,8 +148,40 @@ class ButtonForm extends Component{
         }
         return null;
     }
+
+    modify = e => {
+        console.log("MODIFY!!!!!!!!!!!");
+        e.preventDefault();
+        this.element.argv.class = this.state.class;
+        this.element.argv.string = this.state.string;
+        this.element.argv.href = this.state.href;
+        console.log("띠링띠링띠링띠링띠링띠링띠링", this.element)
+        console.log("띠링띠링띠링띠링띠링띠링띠링", this.element);
+        this.props.updateElement(this.element);
+        this.setState({
+            class:"",
+            string:"",
+            href:"", 
+        });
+      };
     
     render(){
+        let button;
+        console.log("STATE!!!!!!!!!!!", this.state.isModifying);
+        if (this.state.isModifying === true) {
+          button = (
+            <Button variant="contained" onClick={this.modify}>
+              Modify!
+            </Button>
+          );
+        } else {
+          button = (
+            <Button variant="contained" onClick={this.handleSubmit}>
+              Submit!
+            </Button>
+          );
+        }
+
         const {classes, elementInfo} = this.props;
         console.log("this.state.string", this.state.string);
         console.log("this.state.string", this.state.href);
@@ -196,6 +234,13 @@ class ButtonForm extends Component{
                     className={classes.button}
                     type = "submit">
                     { this.state.editing ? 'apply' : 'change'}
+            </Button>
+            <Button variant="contained" 
+                    size="small" 
+                    className={classes.button}
+                    onClick={()=>this.props.deleteElement(this.element)}
+                    >
+                    Delete
             </Button>
              </form>
             )

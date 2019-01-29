@@ -35,30 +35,30 @@ class ButtonModify extends Component {
 
   render() {
     const { component } = this.state;
-    const { onUpdate, elementInfo, isModifying } = this.props;
+    const { onUpdate, elementInfo, isModifying,deleteElement } = this.props;
     console.log(component);
 
     let showBox;
     if (component === "Button") {
-      showBox = <ButtonForm isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <ButtonForm updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} deleteElement = {deleteElement} />;
     } else if (component === "TitleBar") {
-      showBox = <TitleBar isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <TitleBar  updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
     } else if (component === "NavBar") {
-      showBox = <NavBar isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <NavBar  updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
     } else if (component === "List") {
-      showBox = <List isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <List  updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
     } else if (component === "Billboard") {
-      showBox = <Billboard isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <Billboard updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
     } else if (component === "Card") {
-      showBox = <Card isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <Card updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
     } else if (component === "NormalText") {
-      showBox = <NormalText isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <NormalText updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
     } else if (component === "ResponsiveImage") {
       showBox = (
-        <ResponsiveImage isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />
+        <ResponsiveImage updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />
       );
     } else if (component === "YoutubeVideo") {
-      showBox = <YoutubeVideo isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
+      showBox = <YoutubeVideo updateElement={this.props.updateElement} isModifying={this.state.isModifying} onCreate={onUpdate} elementInfo={elementInfo} />;
     } else {
       showBox = <div>choose any button you want!</div>;
     }

@@ -71,6 +71,14 @@ class BillBoard extends Component {
 
   modify = e => {
     console.log("MODIFY!!!!!!!!!!!");
+    e.preventDefault();
+    this.element.argv.imgurls = this.state.urlArray;
+    console.log("띠링띠링띠링띠링띠링띠링띠링", this.element);
+    this.props.updateElement(this.element);
+    this.setState({
+      inputVal: "",
+      urlArray: []
+    });
   };
 
   render() {
