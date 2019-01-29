@@ -167,7 +167,6 @@ class ClippedDrawer extends React.Component {
         getid = response.headers['asset_id'];
         resbody = response.data.toString().trim();
         console.log(resbody);
-        console.log(typeof resbody);
         console.log("id post로 받은거",getid);
         _this.setState({
           elements : _this.state.elements.concat({id : getid, ...element})
