@@ -6,6 +6,10 @@ import NavBar from './NavBar';
 import Progress from './Progress';
 import Card from './Card';
 import List from './List';
+import Billboard from './BillBoard';
+import NormalText from './NormalText';
+import ResponsiveImage from './ResponsiveImage';
+import YoutubeVideo from './YoutubeVideo';
 
 import axios from 'axios';
 
@@ -41,13 +45,22 @@ class ButtonModify extends Component {
         showBox = (<NavBar onCreate = {onUpdate}/>)
       }
       else if(component === "List"){
-
+        showBox = (<List onCreate = {onUpdate}/>)
       }
-      else if(component === " Billboard"){
-
+      else if(component === "Billboard"){
+        showBox = (<Billboard onCreate ={onUpdate}/>)
       }
       else if(component === "Card"){
-        
+        showBox = (<Card onCreate ={onUpdate}/>)
+      }
+      else if(component === "NormalText"){
+        showBox = (<NormalText onCreate ={onUpdate}/>)
+      }
+      else if(component === "ResponsiveImage"){
+        showBox = (<ResponsiveImage onCreate ={onUpdate}/>)
+      }
+      else if(component === "YoutubeVideo"){
+        showBox = (<YoutubeVideo onCreate ={onUpdate}/>)
       }
       else{
         showBox =(<div>choose any button you want!</div>)
