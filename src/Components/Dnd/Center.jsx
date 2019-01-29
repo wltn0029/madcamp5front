@@ -106,6 +106,7 @@ class Center extends Component {
               boxId = {box.name}
               elements={this.state.elements}
               whenSomethingCame={this.props.elementMove}
+              elementClick={this.props.elementClick}
               style = {droppableStyle}
           />
         </div>
