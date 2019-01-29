@@ -16,7 +16,8 @@ class Droppable extends Component {
 
   render() {
     return (
-      <div id={this.props.id} onDrop={this.drop} onDragOver={this.allowDrop} style={this.props.style}>
+      <div
+      id={this.props.id} onDrop={this.drop} onDragOver={this.allowDrop} style={this.props.style}>
         {this.props.children}
       </div>
     );

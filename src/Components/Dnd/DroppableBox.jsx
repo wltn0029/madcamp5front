@@ -9,28 +9,24 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-const droppableStyle = {
-  backgroundColor: "#555",
-  width: "300px",
-  height: "400px",
-  border: "solid 1px yellow"
-};
 
 class DroppableBox extends Component {
   state = {
     onlyForSetState : true,
-    boxElements: [],
+    elements: [],
     renderr: true,
+    style: {}
   }
+  
+  width = "1200px"
+  height ="500px"
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.boxElements !== prevState.boxElements) {
-      console.log("prevState.boxElements >>>> ", prevState.boxElements);
-      console.log("nextProps.boxElements >>>> ", nextProps.boxElements);
-      // return { elements: nextProps.elements };
-      // return{
-      //   boxElements: nextProps.boxElements
-      // };
+    console.log("prevState.boxElements >>>> ", prevState.elements);
+    if (nextProps.elements !== prevState.elements || nextProps.style !== prevState.style) {
+      console.log("nextProps.boxElements >>>> ", nextProps.elements);
+      return {style: nextProps.style,
+              elements : nextProps.elements}
     }
     return null;
   }
@@ -182,10 +178,9 @@ class DroppableBox extends Component {
   }
 
   render() {
-    const { elements, boxId} = this.props;
-    // this.setState({
-    //   boxElements: this.props.boxElements
-    // });
+    const { elements, boxId, style } = this.props;
+    // const { style } = this.state;
+    console.log("droppable box elements", elements);
     // 만약에 박스 state가 false이면 아예 렌더링 하지말라고...
     let showbox = elements.map(element => {
         if (element.div === boxId) {
@@ -313,11 +308,10 @@ class DroppableBox extends Component {
     })
     // console.log("boxelements: ", boxElements[0].elements);
         return (
-          <div>
+          <div onClick ={()=>this.props.boxClicked(boxId)}>
             <Wrapper>
-            {this.props.boxId}
               <Droppable
-                style={droppableStyle}
+                style={style}
                 whenSomethingCame={this.elementMove}
               >
                 {showbox}
