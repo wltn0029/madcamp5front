@@ -9,7 +9,7 @@ class YoutubeVideo extends Component {
 
     element = {
         asset:"youtube",
-        div: 'box1',
+        div: 'box',
         argv: {
             link:""
     

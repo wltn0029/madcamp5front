@@ -19,7 +19,7 @@ class Card extends Component {
 
     element = {
         asset: "card",
-        div: 'box1',
+        div: 'box',
         argv: {
             imgurl:"",
             title :"",

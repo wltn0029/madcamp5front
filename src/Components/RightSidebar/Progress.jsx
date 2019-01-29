@@ -21,7 +21,7 @@ class Progress extends Component{
     element = {
         asset : "progress",
         orientation : "vertical",
-        div : 'box1',
+        div : 'box',
         argv: {
             percentage:"",
         } 

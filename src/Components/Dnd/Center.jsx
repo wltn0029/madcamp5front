@@ -59,7 +59,6 @@ class Center extends Component {
     textValue: "initial value",
     showdata: this.displayData,
     checkAdd: true,
-    selectedBox: "box1",
     checkcheck: true,
     boxes: [],
     elements:[],
@@ -83,6 +82,7 @@ class Center extends Component {
 
   makeTree=(index)=>{
     //check it is leaf node or not
+    console.log("this.state.boxArray",this.state.boxArray)
     if(this.state.boxArray[index].orientation === null){
       let droppableStyle = {
         backgroundColor: "#555",
@@ -90,10 +90,10 @@ class Center extends Component {
         height: "",
         border: "solid 1px yellow"
       };
+      console.log("center box",this.state.boxes)
       let box = this.state.boxes.find(box=>{
         return box.name === this.state.boxArray[index].name
       })
-      // console.log("make tree>>>>>>>>>",box)
       let height = box.height;
       let width = box.width;
       droppableStyle.width = width;
@@ -127,7 +127,8 @@ class Center extends Component {
       nextProps.boxes!==prevState.boxes || 
       nextProps.direction !== prevState.direction ||
       nextProps.boxArray !== prevState.boxArray) {
-      console.log(" nextProps.elements", nextProps.elements)
+      console.log(" nextProps.boxes", nextProps.boxes)
+      console.log("prevstate boxarray",prevState.boxArray)
       justCheck = true;
       return { elements: nextProps.elements,
                 boxes : nextProps.boxes,
@@ -144,7 +145,7 @@ class Center extends Component {
       <DivisionContent />
     );
     
-    console.log("center element",this.state.elements);
+    console.log("boxarray",this.state.boxArray);
     let showbox = this.makeTree(0)
     return (
       <div>

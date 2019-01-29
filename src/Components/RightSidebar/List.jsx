@@ -76,7 +76,7 @@ class List extends Component{
     element = {
         asset : "list",
         orientation : "vertical",
-        div : 'box1',
+        div : 'box',
         argv: {
             count:"",
             menu:[],

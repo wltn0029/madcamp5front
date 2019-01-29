@@ -88,7 +88,7 @@ class ButtonForm extends Component{
     element = {
         asset : "button",
         orientation : "vertical",
-        div : 'box1',
+        div : 'box',
         argv: {
             class:"",
             string:"",

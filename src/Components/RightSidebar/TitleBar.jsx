@@ -33,7 +33,7 @@ class TitleBar extends Component{
     element ={
         asset: "titlebar",
         orientation: " vertical",
-        div: 'box1',
+        div: 'box',
         argv: {
             title: "",
             description: "",

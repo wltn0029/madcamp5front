@@ -9,7 +9,7 @@ class ResponsiveImage extends Component {
 
     element = {
         asset:"image",
-        div: 'box1',
+        div: 'box',
         argv: {
             imgurl : ""
         }

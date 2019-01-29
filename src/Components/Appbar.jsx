@@ -28,11 +28,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ButtonModify from './RightSidebar/ButtonModify';
 import { Button } from "@material-ui/core";
 import Center from '../Components/Dnd/Center';
-import CardIcon from "@material-ui/icons/PhotoAlbum";
 
-import ButtonModify from './RightSidebar/ButtonModify';
-import { Button } from "@material-ui/core";
-import Center from './Dnd/Center';
 
 import axios from 'axios';
 import Highlight from 'react-highlight.js';
@@ -302,18 +298,21 @@ class ClippedDrawer extends React.Component {
         resbody = response.data;
         console.log(resbody);
         console.log("id post로 받은거",getid);
-        _this.setState({
-          elements : _this.state.elements.concat({id : getid, ...element})
-        })
-        //update box per element
-        _this.setState({
-          boxes : _this.state.boxes.map(box =>{
+        let newElements = _this.state.elements;
+        let newBoxes = _this.state.boxes;
+        newElements = _this.state.elements.concat({id : getid, ...element})
+        newBoxes =  _this.state.boxes.map(box =>{
             if(box.name == element.div){
-              box.push(element)
+              box.elements.push(element)
               return box;
             }
-          })
+          }, console.log("onupdate state check",newElements))
+          console.log("onupdate state check",newElements)
+        _this.setState({
+          elements : newElements,
+          boxes : newBoxes
         })
+        console.log("onupdate box state",_this.state.boxes)
       })
       .catch(function(error){
         console.log(error);
@@ -371,7 +370,11 @@ class ClippedDrawer extends React.Component {
           <Center elements ={this.state.elements}
                   elementMove = {this.elementMove}
                   boxes={this.state.boxes}
-                  elementClick={this.elementClick}/>
+                  elementClick={this.elementClick}
+                  splitBox = {this.splitBox}
+                  boxClicked = {this.boxClicked}
+                  boxArray = {this.state.boxArray}
+                  />
                   <iframe
                     srcDoc={resbody}
                     style={{border: "solid 3px #1d4687", width: "1370px", height: "770px"}}
@@ -381,11 +384,6 @@ class ClippedDrawer extends React.Component {
                     >
                     <Highlight language={"html"} >{resbody}</Highlight>
                     </div>
-
-
-                  splitBox = {this.splitBox}
-                  boxClicked = {this.boxClicked}
-                  boxArray = {this.state.boxArray}/>
         </main>
 
         {/* Right Sidebar */}
