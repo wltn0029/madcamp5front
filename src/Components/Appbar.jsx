@@ -18,12 +18,10 @@ import TitleIcon from "@material-ui/icons/FeaturedPlayList";
 import NavbarIcon from "@material-ui/icons/Navigation";
 import ListIcon from "@material-ui/icons/ViewList";
 import BillboardIcon from "@material-ui/icons/Panorama";
-import CardIcon from "@material-ui/icons/PhotoAlbum"
-
-
-
-
-import ExpandLess from '@material-ui/icons/ExpandLess';
+import CardIcon from "@material-ui/icons/PhotoAlbum";
+import TextIcon from "@material-ui/icons/Title";
+import PhotoIcon from "@material-ui/icons/InsertPhoto";
+import YoutubeIcon from "@material-ui/icons/LocalMovies";
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import Collapse from '@material-ui/core/Collapse';
@@ -37,11 +35,8 @@ import { Button } from "@material-ui/core";
 import Center from './Dnd/Center';
 
 import axios from 'axios';
-// import DropTarget from '../DnD/DropTarget';
-//require('prismjs');
-//require('prismjs/themes/prism.css');
-import Prism from "prismjs";
-import "./prism.css";
+import Highlight from 'react-highlight.js';
+
 const drawerWidth = 240;
 const initialHeight = "500px"
 const initialWidth = "1200px"
@@ -73,8 +68,7 @@ let box2 = [];
 let box3 = [];
 let resbody;
 var prismCode;
-let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />)];
-let check = false; 
+let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />),(<TextIcon />),(<PhotoIcon />), (<YoutubeIcon />)];
 class ClippedDrawer extends React.Component {
   state = {
     isModifying: false,
@@ -84,6 +78,7 @@ class ClippedDrawer extends React.Component {
     selectedElement: {asset: "null"},
     clickedBox:'',
     boxDirection:'',
+    clickedDivision : '',
     load:false,
     elements : [{
         asset: "button",
@@ -304,7 +299,7 @@ class ClippedDrawer extends React.Component {
       data : element
       }).then(function(response){
         getid = response.headers['asset_id'];
-        resbody = response.data.toString().trim();
+        resbody = response.data;
         console.log(resbody);
         console.log("id post로 받은거",getid);
         _this.setState({
@@ -368,7 +363,7 @@ class ClippedDrawer extends React.Component {
             ))}
           </List>
           <Divider />
-          <Button onClick={this.getLog}>GETLOG!</Button> 
+          <p>{this.state.clickedDivision}</p>
         </Drawer>
 
         <main className={classes.content}>
@@ -382,9 +377,9 @@ class ClippedDrawer extends React.Component {
                     style={{border: "solid 3px #1d4687", width: "1370px", height: "770px"}}
                   ></iframe>
                   <div
-                    style={{border: "solid 3px #1d4687", width: "1370px", height: "470px"} }
+                    style={{border: "solid 3px #1d4687", width: "1370px"} }
                     >
-                    <pre><code class="language-html">{resbody}</code></pre>
+                    <Highlight language={"html"} >{resbody}</Highlight>
                     </div>
 
 
