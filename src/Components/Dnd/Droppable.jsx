@@ -6,7 +6,6 @@ class Droppable extends Component {
     e.preventDefault();
     const data = e.dataTransfer.getData('transfer');
     const dataInfo = JSON.parse(e.dataTransfer.getData('transferInfo'));
-    e.target.appendChild(document.getElementById(data));
     this.props.whenSomethingCame(dataInfo);
   }
 
@@ -16,7 +15,8 @@ class Droppable extends Component {
 
   render() {
     return (
-      <div id={this.props.id} onDrop={this.drop} onDragOver={this.allowDrop} style={this.props.style}>
+      <div
+      id={this.props.id} onDrop={this.drop} onDragOver={this.allowDrop} style={this.props.style}>
         {this.props.children}
       </div>
     );

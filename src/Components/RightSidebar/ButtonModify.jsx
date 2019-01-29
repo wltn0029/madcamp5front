@@ -19,7 +19,7 @@ class ButtonModify extends Component {
     // 여기서는 setState 를 하는 것이 아니라
     // 특정 props 가 바뀔 때 설정하고 설정하고 싶은 state 값을 리턴하는 형태로
     // 사용됩니다.
-    if (nextProps.clickedComponent !== prevState.component) {
+    if (nextProps.clickedComponent !== prevState.component ) {
       return { component: nextProps.clickedComponent };
     }
     return null; // null 을 리턴하면 따로 업데이트 할 것은 없다라는 의미

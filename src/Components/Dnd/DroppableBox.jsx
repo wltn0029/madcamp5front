@@ -9,28 +9,24 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-const droppableStyle = {
-  backgroundColor: "#555",
-  width: "300px",
-  height: "400px",
-  border: "solid 1px yellow"
-};
 
 class DroppableBox extends Component {
   state = {
     onlyForSetState : true,
-    boxElements: [],
+    elements: [],
     renderr: true,
+    style: {}
   }
+  
+  width = "1200px"
+  height ="500px"
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.boxElements !== prevState.boxElements) {
-      console.log("prevState.boxElements >>>> ", prevState.boxElements);
-      console.log("nextProps.boxElements >>>> ", nextProps.boxElements);
-      // return { elements: nextProps.elements };
-      // return{
-      //   boxElements: nextProps.boxElements
-      // };
+    console.log("prevState.boxElements >>>> ", prevState.elements);
+    if (nextProps.elements !== prevState.elements || nextProps.style !== prevState.style) {
+      console.log("nextProps.boxElements >>>> ", nextProps.elements);
+      return {style: nextProps.style,
+              elements : nextProps.elements}
     }
     return null;
   }
@@ -177,125 +173,127 @@ class DroppableBox extends Component {
     this.props.whenSomethingCame(element, this.props.boxId);
   };
 
+
   render() {
-    const { elements, boxId} = this.props;
-    // this.setState({
-    //   boxElements: this.props.boxElements
-    // });
+    const { elements, boxId, style } = this.props;
+    // const { style } = this.state;
+    console.log("droppable box elements", elements);
     // 만약에 박스 state가 false이면 아예 렌더링 하지말라고...
-    let showbox=elements.map(element => {
+    
+    let showbox = elements.map(element => {
         if (element.div === boxId) {
-          return (
-            <Draggable
-              id={element.argv.string}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.argv.string}
-            >
-              <button type="button" className={element.argv.class}>
-                {element.argv.string}
-              </button>
-            </Draggable>
-          );
-        } else if (element.asset === "navbar") {
-          return (
-            <Draggable
-              id={element.argv.title}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.argv.title}
-            >
-              {this.createnavbar(element)}
-            </Draggable>
-          );
-        } else if (element.asset === "progress") {
-          return (
-            <Draggable
-              id={element.id}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.id}
-            >
-              {this.createProgress(element)}
-            </Draggable>
-          );
-        } else if (element.asset === "list") {
-          return (
-            <Draggable
-              id={element.id}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.id}
-            >
-              {this.createList(element)}
-            </Draggable>
-          );
-        } else if (element.asset === "titlebar") {
-          return (
-            <Draggable
-              id={element.id}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.ic}
-            >
-              {this.createTitlebar(element)}
-            </Draggable>
-          );
-        } else if (element.asset === "billboard") {
-          return (
-            <Draggable
-              id={element.id}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.id}
-            >
-              {this.createBillboard(element)}
-            </Draggable>
-          );
-        } else if (element.asset === "card") {
-          return (
-            <Draggable
-              id={element.id}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.id}
-            >
-              {this.createCard(element)}
-            </Draggable>
-          );
-        } else if (element.asset === "text") {
-          return (
-            <Draggable
-              id={element.id}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.id}
-            >
-              {this.createText(element)}
-            </Draggable>
-          );
-        } else if (element.asset === "image") {
-          return (
-            <Draggable
-              id={element.id}
-              style={{ margin: "8px" }}
-              info={element}
-              key={element.id}
-            >
-              {this.createImage(element)}
-            </Draggable>
-          );
-        } else {
-          return null;
-        }
+          if(element.asset === "button"){
+            return (
+              <Draggable
+                id={element.argv.string}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.argv.string}
+              >
+                <button type="button" className={element.argv.class}>
+                  {element.argv.string}
+                </button>
+              </Draggable>
+            );
+          }else if (element.asset === "navbar") {
+            return (
+              <Draggable
+                id={element.argv.title}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.argv.title}
+              >
+                {this.createnavbar(element)}
+              </Draggable>
+            );
+          } else if (element.asset === "progress") {
+            return (
+              <Draggable
+                id={element.id}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.id}
+              >
+                {this.createProgress(element)}
+              </Draggable>
+            );
+          } else if (element.asset === "list") {
+            return (
+              <Draggable
+                id={element.id}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.id}
+              >
+                {this.createList(element)}
+              </Draggable>
+            );
+          } else if (element.asset === "titlebar") {
+            return (
+              <Draggable
+                id={element.id}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.ic}
+              >
+                {this.createTitlebar(element)}
+              </Draggable>
+            );
+          } else if (element.asset === "billboard") {
+            return (
+              <Draggable
+                id={element.id}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.id}
+              >
+                {this.createBillboard(element)}
+              </Draggable>
+            );
+          } else if (element.asset === "card") {
+            return (
+              <Draggable
+                id={element.id}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.id}
+              >
+                {this.createCard(element)}
+              </Draggable>
+            );
+          } else if (element.asset === "text") {
+            return (
+              <Draggable
+                id={element.id}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.id}
+              >
+                {this.createText(element)}
+              </Draggable>
+            );
+          } else if (element.asset === "image") {
+            return (
+              <Draggable
+                id={element.id}
+                style={{ margin: "8px" }}
+                info={element}
+                key={element.id}
+              >
+                {this.createImage(element)}
+              </Draggable>
+            );
+          } else {
+            return null;
+          }
+          
+        } 
       })
-    // console.log("boxelements: ", boxElements[0].elements);
         return (
-          <div>
+          <div onClick ={()=>this.props.boxClicked(boxId)}>
             <Wrapper>
-            {this.props.boxId}
               <Droppable
-                style={droppableStyle}
+                style={style}
                 whenSomethingCame={this.elementMove}
               >
                 {showbox}

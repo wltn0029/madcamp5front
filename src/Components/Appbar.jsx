@@ -18,25 +18,19 @@ import TitleIcon from "@material-ui/icons/FeaturedPlayList";
 import NavbarIcon from "@material-ui/icons/Navigation";
 import ListIcon from "@material-ui/icons/ViewList";
 import BillboardIcon from "@material-ui/icons/Panorama";
-import CardIcon from "@material-ui/icons/PhotoAlbum"
-
-
-
-
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import Collapse from '@material-ui/core/Collapse';
+import CardIcon from "@material-ui/icons/PhotoAlbum";
 
 import ButtonModify from './RightSidebar/ButtonModify';
 import { Button } from "@material-ui/core";
-import Center from '../Components/Dnd/Center';
+import Center from './Dnd/Center';
 
 import axios from 'axios';
 
 // import DropTarget from '../DnD/DropTarget';
 
 const drawerWidth = 240;
+const initialHeight = "500px"
+const initialWidth = "1200px"
 
 const styles = theme => ({
   root: {
@@ -62,17 +56,19 @@ const styles = theme => ({
 });
 
 let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />)];
+let check = false; 
 class ClippedDrawer extends React.Component {
-
   state = {
     justCheck: true,
     open: true,
     clickedComponent : '',
+    clickedBox:'',
+    boxDirection:'',
     load:false,
     elements : [{
         asset: "button",
         orientation: " vertical",
-        div: "box1",
+        div: "box",
         argv: {
           class: "btn btn-primary",
           href: "",
@@ -82,61 +78,24 @@ class ClippedDrawer extends React.Component {
       {
         asset: "button",
         orientation: " vertical",
-        div: "box1",
+        div: "box",
         argv: {
           class: "btn btn-primary",
           href: "",
           string: "btn2"
         }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box2",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn3"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box2",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn4"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box3",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn5"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box3",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn6"
-        }
-      }],
+      }
+    ],
       boxes : [
         {
-          name : "box1",
+          name : "box",
+          height : "500px",
+          width : "1200px",          
           elements :[
             {
               asset: "button",
               orientation: " vertical",
-              div: "box1",
+              div: "box",
               argv: {
                 class: "btn btn-primary",
                 href: "",
@@ -146,56 +105,17 @@ class ClippedDrawer extends React.Component {
             {
               asset: "button",
               orientation: " vertical",
-              div: "box1",
+              div: "box",
               argv: {
                 class: "btn btn-primary",
                 href: "",
                 string: "btn2"
               }
-            },
-            {
-              asset: "button",
-              orientation: " vertical",
-              div: "box2",
-              argv: {
-                class: "btn btn-primary",
-                href: "",
-                string: "btn3"
-              }
-            },
-            {
-              asset: "button",
-              orientation: " vertical",
-              div: "box2",
-              argv: {
-                class: "btn btn-primary",
-                href: "",
-                string: "btn4"
-              }
-            },
-            {
-              asset: "button",
-              orientation: " vertical",
-              div: "box3",
-              argv: {
-                class: "btn btn-primary",
-                href: "",
-                string: "btn5"
-              }
-            },
-            {
-              asset: "button",
-              orientation: " vertical",
-              div: "box3",
-              argv: {
-                class: "btn btn-primary",
-                href: "",
-                string: "btn6"
-              }
             }
           ]
         },
       ],
+      boxArray : [{name : 'box',orientation : null}],
   };
  
   btnClick =  (component) => {
@@ -205,12 +125,91 @@ class ClippedDrawer extends React.Component {
     console.log(component+" clicked")
   };
 
-  ClearBox = ()=>{
+  clearBox = ()=>{
     this.setState({
       boxes : this.state.boxes.map(box=>{
         box.elements = []
         return box
       })
+    })
+  }
+
+  selectBox =(boxId)=>{
+    this.setState({
+      clickedBox : boxId,
+    })
+  }
+
+  findBox =(box)=>{
+    return box
+  }
+
+  splitBox =(direction)=>{
+    let boxId = this.state.clickedBox;
+    console.log("split boxId",boxId)
+    let box = this.state.boxes.find(box=>{
+        return (box.name === boxId)
+    })
+    console.log("***split box",box)
+    let height = box.height;
+    let width = box.width;
+    let newBoxes = this.state.boxes.slice();
+    let newElements = this.state.elements.slice();
+    let newBoxArray = this.state.boxArray.slice();
+    console.log("**when splitbox***",newElements)
+    let curIndex = newBoxes.indexOf(box);
+    let beforeBox = newBoxes.slice(0,curIndex);
+    let afterBox = newBoxes.slice(curIndex+1,newBoxes.length);
+    console.log("newBoxArray",newBoxArray)
+    let indexBox = newBoxArray.find(box=>{
+      console.log("box",box)
+      if(box !== undefined) return (box.name === boxId)
+    })
+    let parentIndex = newBoxArray.indexOf(indexBox)
+    newBoxArray[parentIndex].orientation = direction
+    newBoxArray[parentIndex*2+1] = {name : boxId +1, orientation : null}
+    newBoxArray[parentIndex*2+2]={name :boxId+2,orientation :null}
+    //move elements beloning to original box to new box
+    if(direction === "row"){
+      width = parseFloat(width)/2+"px"
+    }
+    else if(direction === "column"){
+      height = parseFloat(height)/2+'px'
+    }
+    beforeBox = beforeBox.concat({
+      name : boxId +1,
+      elements :[],
+      width : width,
+      height : height
+    },{
+      name :boxId +2,
+      elements : [],
+      height : height,
+      width : width
+    })
+
+    newElements.map(element => {
+      if(element.div === boxId){
+        element.div = boxId+1
+      }
+    })
+
+    newBoxes = beforeBox.concat(afterBox)
+    // console.log("new elements",newElements)
+    newElements.map(element=>{
+      console.log("new elements",element)
+      newBoxes.map(box=>{
+        if(box.name === element.div){
+          box.elements.push(element)
+        }
+      })
+    })
+
+    this.setState({
+        boxDirection : direction,
+        boxes : newBoxes,
+        elements : newElements,
+        boxArray : newBoxArray,
     })
   }
 
@@ -220,7 +219,7 @@ class ClippedDrawer extends React.Component {
       return p.argv.string === element.argv.string;
     });
     project.div = id;
-    this.ClearBox();
+    this.clearBox();
     this.state.elements.map(element=>{
       this.state.boxes.map(box=>{
         if(box.name === element.div){
@@ -229,18 +228,14 @@ class ClippedDrawer extends React.Component {
       })
     })
     console.log("elementMove elements>>>>>",this.state.elements)
-    const justcheck2 = this.state.justCheck;
-    this.setState({
-      justCheck: !justcheck2
-    });
     console.log("this.state2.element", this.state.elements);
   };
 
-  RemoveBox=()=>{
+  boxClicked=(boxId)=>{
+    console.log("appbar>>>>>>>",boxId)  
     this.setState({
-      boxes : this.state.boxes.filter(box => box.name!=="box1")
+      clickedBox : boxId
     })
-    console.log("remove box executes well????????",this.state.boxes);
   }
 
   onUpdate = element => {
@@ -277,9 +272,10 @@ class ClippedDrawer extends React.Component {
       this.setState(state, resolve)
     })
   }
-
+ 
   render() {
     console.log("appbar render")
+    console.log('appbar elements',this.state.elements)
     console.log(this.state.boxes)
     const { classes } = this.props;    
     return (
@@ -321,7 +317,9 @@ class ClippedDrawer extends React.Component {
           <Center elements ={this.state.elements}
                   boxes = {this.state.boxes}
                   elementMove = {this.elementMove}
-                  RemoveBox = {this.RemoveBox}/>
+                  splitBox = {this.splitBox}
+                  boxClicked = {this.boxClicked}
+                  boxArray = {this.state.boxArray}/>
         </main>
             
         {/* Right Sidebar */}
