@@ -9,7 +9,7 @@ class NormalText extends Component {
 
     element = {
         asset: "text",
-        div: 'box1',
+        div: 'box',
         argv: {
       	text : ""
       }

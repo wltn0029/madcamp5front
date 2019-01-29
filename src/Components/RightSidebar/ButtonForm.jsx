@@ -82,7 +82,8 @@ class ButtonForm extends Component{
         string:"",
         href:"", 
         editing : true,    
-        setOpen : false      
+        setOpen : false,
+        isModifying: false,      
     }
 
     element = {
@@ -136,6 +137,7 @@ class ButtonForm extends Component{
                 string: nextProps.elementInfo.argv.string,
                 href: nextProps.elementInfo.argv.href,
                 class: nextProps.elementInfo.argv.class,
+                isModifying: nextProps.isModifying
             }
         }
         return null;

@@ -286,7 +286,7 @@ class ClippedDrawer extends React.Component {
   onUpdate = element => {
     console.log("#######################3", element);
     const _this = this;
-    const url = "http://143.248.38.50/editor/123456/assets";
+    const url = "http://143.248.38.50/editor/232323/assets";
     let getid;
     console.log(JSON.stringify(element));
     axios({
