@@ -29,11 +29,8 @@ import ButtonModify from './RightSidebar/ButtonModify';
 import { Button } from "@material-ui/core";
 import Center from '../Components/Dnd/Center';
 import axios from 'axios';
-// import DropTarget from '../DnD/DropTarget';
-//require('prismjs');
-//require('prismjs/themes/prism.css');
-import Prism from "prismjs";
-import "./prism.css";
+import Highlight from 'react-highlight.js';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -334,7 +331,7 @@ class ClippedDrawer extends React.Component {
                   <div
                     style={{border: "solid 3px #1d4687", width: "1370px"} }
                     >
-                    <pre><code class="language-html">{resbody}</code></pre>
+                    <Highlight language={"html"}>{resbody}</Highlight>
                     </div>
 
 
