@@ -18,12 +18,10 @@ import TitleIcon from "@material-ui/icons/FeaturedPlayList";
 import NavbarIcon from "@material-ui/icons/Navigation";
 import ListIcon from "@material-ui/icons/ViewList";
 import BillboardIcon from "@material-ui/icons/Panorama";
-import CardIcon from "@material-ui/icons/PhotoAlbum"
-
-
-
-
-import ExpandLess from '@material-ui/icons/ExpandLess';
+import CardIcon from "@material-ui/icons/PhotoAlbum";
+import TextIcon from "@material-ui/icons/Title";
+import PhotoIcon from "@material-ui/icons/InsertPhoto";
+import YoutubeIcon from "@material-ui/icons/LocalMovies";
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import Collapse from '@material-ui/core/Collapse';
@@ -65,12 +63,13 @@ let box2 = [];
 let box3 = [];
 let resbody;
 var prismCode;
-let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />)];
+let Buttons = [(<ButtonIcon />), (<TitleIcon />), (<NavbarIcon />), (<ListIcon />), (<BillboardIcon />), (<CardIcon />),(<TextIcon />),(<PhotoIcon />), (<YoutubeIcon />)];
 class ClippedDrawer extends React.Component {
   state = {
     justCheck: true,
     open: true,
     clickedComponent : '',
+    clickedDivision : '',
     load:false,
     elements : [{
         asset: "button",
@@ -257,7 +256,7 @@ class ClippedDrawer extends React.Component {
       data : element
       }).then(function(response){
         getid = response.headers['asset_id'];
-        resbody = response.data.toString().trim();
+        resbody = response.data;
         console.log(resbody);
         console.log("id post로 받은거",getid);
         _this.setState({
@@ -320,6 +319,7 @@ class ClippedDrawer extends React.Component {
             ))}
           </List>
           <Divider />
+          <p>{this.state.clickedDivision}</p>
         </Drawer>
 
         <main className={classes.content}>
@@ -332,7 +332,7 @@ class ClippedDrawer extends React.Component {
                     style={{border: "solid 3px #1d4687", width: "1370px", height: "770px"}}
                   ></iframe>
                   <div
-                    style={{border: "solid 3px #1d4687", width: "1370px", height: "470px"} }
+                    style={{border: "solid 3px #1d4687", width: "1370px"} }
                     >
                     <pre><code class="language-html">{resbody}</code></pre>
                     </div>
