@@ -187,6 +187,7 @@ class ClippedDrawer extends React.Component {
       selectedElement: element,
       isModifying: true,
     });
+}
   selectBox =(boxId)=>{
     this.setState({
       clickedBox : boxId,
@@ -322,7 +323,7 @@ class ClippedDrawer extends React.Component {
       .catch(function(error){
         console.log(error);
       })
-  }
+    }
 
   setStateAsync(state){
     return new Promise((resolve)=>{
