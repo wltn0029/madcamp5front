@@ -17,7 +17,7 @@ class BillBoard extends Component {
 
   element = {
     asset: "billboard",
-    div: "box",
+    div: this.props.clickedBox,
     argv: {
       imgurls: []
     }
@@ -62,7 +62,7 @@ class BillBoard extends Component {
     this.props.onCreate(this.element);
     this.element = {
       asset: "billboard",
-      div: "box",
+      div: this.props.clickedBox,
       argv: {
         imgurls: []
       }

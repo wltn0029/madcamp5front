@@ -10,7 +10,7 @@ class ResponsiveImage extends Component {
 
   element = {
     asset: "image",
-    div: "box",
+    div: this.props.clickedBox,
     argv: {
       imgurl: ""
     }

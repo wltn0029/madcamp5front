@@ -74,7 +74,7 @@ class NavBar extends Component {
   element = {
     asset: "navbar",
     orientation: " vertical",
-    div: "box",
+    div: this.props.clickedBox,
     argv: {
       title: "",
       menu: [],

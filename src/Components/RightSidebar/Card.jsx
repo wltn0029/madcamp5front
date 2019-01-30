@@ -20,7 +20,7 @@ class Card extends Component {
 
   element = {
     asset: "card",
-    div: "box",
+    div: this.props.clickedBox,
     argv: {
       imgurl: "",
       title: "",

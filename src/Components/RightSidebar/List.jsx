@@ -76,7 +76,7 @@ class List extends Component {
   element = {
     asset: "list",
     orientation: "vertical",
-    div: "box",
+    div: this.props.clickedBox,
     argv: {
       count: "",
       menu: [],

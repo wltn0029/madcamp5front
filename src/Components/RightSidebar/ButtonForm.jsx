@@ -89,7 +89,7 @@ class ButtonForm extends Component{
     element = {
         asset : "button",
         orientation : "vertical",
-        div : 'box',
+        div : this.props.clickedBox,
         argv: {
             class:"",
             string:"",
@@ -214,7 +214,6 @@ class ButtonForm extends Component{
              <TextField
                 id="standard-uncontrolled"
                 label="Button Name"
-                value={this.state.string}
                 margin="normal"
                 onChange = {this.handleChange}
                 name = "string"

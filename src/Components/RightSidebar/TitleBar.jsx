@@ -80,8 +80,8 @@ class TitleBar extends Component {
     console.log(this.element);
     this.props.updateElement(this.element);
     this.setState({
-      inputVal: "",
-      urlArray: []
+      title: "",
+      description: ""
     });
   };
 

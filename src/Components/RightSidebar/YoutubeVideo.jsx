@@ -10,7 +10,7 @@ class YoutubeVideo extends Component {
 
   element = {
     asset: "youtube",
-    div: "box",
+    div: this.props.clickedBox,
     argv: {
       link: ""
     }

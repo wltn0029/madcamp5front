@@ -156,7 +156,7 @@ class Center extends Component {
           { division }
           {/* <div style={{border: "1px solid black"}}>dkjfsfj</div> */}
         </div>
-          <div>s
+          <div>
           {/* division 나눌 수 있게 버튼 추가한 카드 */}
           <Card className={classes.card}>
             <CardContent>

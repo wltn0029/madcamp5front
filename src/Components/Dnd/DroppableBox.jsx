@@ -302,9 +302,20 @@ class DroppableBox extends Component {
               {this.createImage(element)}
             </Draggable>
           );
-        }} else {
+        } else if (element.asset === "youtube") {
+          return(<Draggable
+              id={element.id}
+              style={{ margin: "8px" }}
+              info={element}
+              key={element.id}
+              element={element}
+              elementClick={this.props.elementClick}
+            >
+              {this.createYoutube(element)}
+            </Draggable>)
+        } else {
           return null;
-        }
+        }}
     })
     // console.log("boxelements: ", boxElements[0].elements);
         return (

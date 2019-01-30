@@ -10,7 +10,7 @@ class NormalText extends Component {
 
   element = {
     asset: "text",
-    div: "box",
+    div: this.props.clickedBox,
     argv: {
       text: ""
     }
@@ -41,7 +41,7 @@ class NormalText extends Component {
     });
     this.element = {
       asset: "text",
-      div: "box",
+      div: this.props.clickedBox,
       argv: {
         text: ""
       }
@@ -62,6 +62,7 @@ class NormalText extends Component {
   render() {
     let button;
     console.log("STATE!!!!!!!!!!!", this.state.isModifying);
+    console.log("dfkjkfjdkfjkfjkf",this.element.div)
     if (this.state.isModifying === true) {
       button = (
         <Button variant="contained" onClick={this.modify}>

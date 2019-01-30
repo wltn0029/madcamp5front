@@ -76,54 +76,13 @@ class ClippedDrawer extends React.Component {
     boxDirection:'',
     clickedDivision : '',
     load:false,
-    elements : [{
-        asset: "button",
-        orientation: " vertical",
-        div: "box",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn1"
-        }
-      },
-      {
-        asset: "button",
-        orientation: " vertical",
-        div: "box",
-        argv: {
-          class: "btn btn-primary",
-          href: "",
-          string: "btn2"
-        }
-      }
-    ],
-      boxes : [
+    elements : [    ],
+    boxes : [
         {
           name : "box",
           height : "500px",
           width : "1200px",          
-          elements :[
-            {
-              asset: "button",
-              orientation: " vertical",
-              div: "box",
-              argv: {
-                class: "btn btn-primary",
-                href: "",
-                string: "btn1"
-              }
-            },
-            {
-              asset: "button",
-              orientation: " vertical",
-              div: "box",
-              argv: {
-                class: "btn btn-primary",
-                href: "",
-                string: "btn2"
-              }
-            }
-          ]
+          elements :[ ]
         },
       ],
       boxArray : [{name : 'box',orientation : null}],
@@ -237,22 +196,45 @@ class ClippedDrawer extends React.Component {
       width : width
     })
 
-    newElements.map(element => {
+    newElements = newElements.map(element => {
       if(element.div === boxId){
         element.div = boxId+1
+        return element
       }
+      return element
     })
-
+    console.log('appbar split element',newElements)
     newBoxes = beforeBox.concat(afterBox)
-    // console.log("new elements",newElements)
+    console.log("new boxes",newBoxes)
+    
+    let newBox = newBoxes.find(box =>{
+      return box.name === boxId +1
+    })
+    console.log("tuype new box",typeof newBox)
+    // newElements.map(element=>{
+    //   newBox = newBox.elements.push(element)
+    //   console.log('newbox>>>>>>>>>>>>>>>>>>>>>>>>',newBox)
+    // })
+    /**
+     * newBoxes =  _this.state.boxes.map(box =>{
+            if(box.name == element.div){
+              box.elements.push(element)
+              return box;
+            }
+          }
+     */
     newElements.map(element=>{
       console.log("new elements",element)
-      newBoxes.map(box=>{
+      newBoxes = newBoxes.map(box=>{
         if(box.name === element.div){
           box.elements.push(element)
+          return box
         }
+        return box
       })
+      return element
     })
+    console.log("new boxes",newBoxes)
     this.setState({
         boxDirection : direction,
         boxes : newBoxes,
@@ -365,7 +347,7 @@ class ClippedDrawer extends React.Component {
     let getid;
     let postUrl = "http://143.248.38.50/editor/654321/";
     //division id 어떤 형식으로 줘야하는 지 물어보기!!
-    postUrl = postUrl+element.div+"/"+element.asset
+    postUrl = postUrl+element.div+"/assets";
     console.log(JSON.stringify(element));
     axios({
       method :'post',
@@ -384,6 +366,7 @@ class ClippedDrawer extends React.Component {
               box.elements.push(element)
               return box;
             }
+            return box;
           }, console.log("onupdate state check",newElements))
           console.log("onupdate state check",newElements)
         _this.setState({
@@ -414,7 +397,7 @@ class ClippedDrawer extends React.Component {
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <Typography variant="h6" color="inherit" noWrap>
-              Clipped drawer
+              Spider
             </Typography>
           </Toolbar>
         </AppBar>
@@ -440,7 +423,7 @@ class ClippedDrawer extends React.Component {
             ))}
           </List>
           <Divider />
-          <p>{this.state.clickedDivision}</p>
+          <p>{this.state.clickedBox}</p>
         </Drawer>
 
         <main className={classes.content}>
@@ -482,7 +465,8 @@ class ClippedDrawer extends React.Component {
             elementMove = {this.elementMove}
             elementInfo={this.state.selectedElement}
             isModifying={this.state.isModifying}
-            updateElement={this.updateElement}/>
+            updateElement={this.updateElement}
+            clickedBox ={this.state.clickedBox}/>
         </Drawer>
       </div>
     );
